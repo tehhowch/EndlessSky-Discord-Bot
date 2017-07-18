@@ -16,6 +16,11 @@ repositories {
 	maven { url 'https://jitpack.io' }
 }
 
+configurations {
+	testCompile.extendsFrom compile
+	testRuntime.extendsFrom runtime
+}
+
 dependencies {
 	compile 'com.sedmelluq:lavaplayer:1.2.51'
 	compile 'net.dv8tion:JDA:3.5.1_339'
