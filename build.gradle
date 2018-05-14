@@ -10,11 +10,13 @@ version = '2.0-SNAPSHOT'
 
 repositories {
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
     compile 'net.dv8tion:JDA:3.6.0_365'
     compile 'com.jagrosh:jda-utilities:2.1.1'
+    compile 'com.github.MCOfficer:ESParser-java:c80832c04b'
 
     runtime 'ch.qos.logback:logback-classic:1.2.3'
     runtime 'ch.qos.logback:logback-core:1.2.3'
