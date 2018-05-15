@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Properties;
 
 public class James {
@@ -69,16 +70,20 @@ public class James {
 
     private ArrayList<File> fetchGameData(String githubToken) throws IOException {
         Path temp = Files.createTempDirectory("james");
-        temp.toFile().deleteOnExit();
-        File data = new File(temp.toAbsolutePath() + "data/");
+        File data = new File(temp.toAbsolutePath() + "/data/");
         data.mkdir();
 
         log.info("Downloading game data...");
         JSONArray json = new JSONArray(Util.getContentFromUrl("https://api.github.com/repos/endless-sky/endless-sky/contents/data?ref=master&access_token=" + githubToken));
         for (Object o : json) {
             JSONObject j = (JSONObject) o;
-            Util.downloadFile(j.getString("download_url"), temp);
+            Util.downloadFile(j.getString("download_url"), data.toPath());
         }
-        return Sources.getSources(temp, null);
+        ArrayList<File> sources = Sources.getSources(temp, null);
+        Files.walk(temp)
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+        return sources;
     }
 }
