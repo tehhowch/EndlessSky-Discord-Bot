@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.Sources;
 import me.mcofficer.james.commands.lookup.Issue;
+import me.mcofficer.james.commands.lookup.Showdata;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -65,7 +66,7 @@ public class James {
             dataFiles.add(new DataFile(path.getAbsolutePath()));
         Lookups lookups = new Lookups(dataFiles);
 
-        builder.addCommand(new Issue());
+        builder.addCommands(new Issue(), new Showdata(lookups));
     }
 
     private ArrayList<File> fetchGameData(String githubToken) throws IOException {
