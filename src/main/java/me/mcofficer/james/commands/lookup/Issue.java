@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.lookup;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 
 public class Issue extends Command{
@@ -15,7 +16,7 @@ public class Issue extends Command{
 
     @Override
     protected void execute(CommandEvent event) {
-        String url = "https://github.com/endless-sky/endless-sky/issues/" + event.getArgs();
+        String url = James.ES_GITHUB_URL + "issues/" + event.getArgs();
 
         int s = Util.getHttpStatus(url);
 

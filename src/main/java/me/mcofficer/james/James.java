@@ -27,7 +27,8 @@ import java.util.Properties;
 
 public class James {
 
-    public final static String GITHUB_URL = "https://github.com/MCOfficer/EndlessSky-Discord-Bot";
+    public final static String GITHUB_URL = "https://github.com/MCOfficer/EndlessSky-Discord-Bot/";
+    public final static String ES_GITHUB_URL = "https://github.com/endless-sky/endless-sky/";
 
     Logger log = LoggerFactory.getLogger(James.class);
 
