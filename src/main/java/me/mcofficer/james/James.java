@@ -3,6 +3,7 @@ package me.mcofficer.james;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.Sources;
+import me.mcofficer.james.commands.Help;
 import me.mcofficer.james.commands.lookup.Issue;
 import me.mcofficer.james.commands.lookup.Showdata;
 import net.dv8tion.jda.core.AccountType;
@@ -25,6 +26,8 @@ import java.util.Comparator;
 import java.util.Properties;
 
 public class James {
+
+    public final static String GITHUB_URL = "https://github.com/MCOfficer/EndlessSky-Discord-Bot";
 
     Logger log = LoggerFactory.getLogger(James.class);
 
@@ -52,6 +55,9 @@ public class James {
                 .setGame(Game.listening("-help"))
                 .setOwnerId("177733454824341505"); // yep, that's me
         addCommands(clientBuilder, cfg.getProperty("github"));
+
+
+        clientBuilder.setHelpConsumer(new Help(clientBuilder.build())); // this HAS to be done after adding all Commands!
 
         JDA jda = new JDABuilder(AccountType.BOT)
                 .setToken(cfg.getProperty("token"))
