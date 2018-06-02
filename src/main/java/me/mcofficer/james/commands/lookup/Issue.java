@@ -7,11 +7,6 @@ import com.jagrosh.jdautilities.examples.doc.Author;
 import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.entities.TextChannel;
 
-@CommandInfo(
-        name = {"issue", "pull", "pr"},
-        description = "Gets an issue/PR from the ES repo by its number."
-)
-
 @Author("MCOfficer")
 public class Issue extends Command{
 
