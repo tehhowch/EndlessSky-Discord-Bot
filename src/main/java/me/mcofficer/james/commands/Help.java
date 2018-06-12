@@ -5,7 +5,6 @@ import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.entities.MessageEmbed;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -14,25 +13,31 @@ public class Help implements Consumer<CommandEvent>{
 
     private final List<Command> commands;
     private final String prefix;
-    private MessageEmbed helpEmbed;
+    private EmbedBuilder helpEmbedBuilder;
 
     public Help(CommandClient client) {
         commands = client.getCommands();
         prefix = client.getPrefix();
-        helpEmbed = createHelpEmbed();
+        helpEmbedBuilder = createHelpEmbedBuilder();
     }
 
     @Override
     public void accept(CommandEvent e) {
         if (e.getArgs().isEmpty())
-            e.reply(helpEmbed);
+            e.reply(helpEmbedBuilder
+                    .setColor(e.getGuild().getSelfMember().getColor())
+                    .build());
         else
             for (Command c : commands)
-                if (c.getName().equalsIgnoreCase(e.getArgs()))
-                    e.reply(createHelpEmbed(c));
+                if (c.getName().equalsIgnoreCase(e.getArgs())) {
+                    e.reply(createHelpEmbedBuilder(c)
+                            .setColor(e.getGuild().getSelfMember().getColor())
+                            .build());
+                    break;
+                }
     }
 
-    private MessageEmbed createHelpEmbed() {
+    private EmbedBuilder createHelpEmbedBuilder() {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         StringBuilder sb = new StringBuilder();
 
@@ -51,10 +56,10 @@ public class Help implements Consumer<CommandEvent>{
         embedBuilder.setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL);
         embedBuilder.setDescription(sb.toString());
 
-        return embedBuilder.build();
+        return embedBuilder;
     }
 
-    private MessageEmbed createHelpEmbed(Command c)  {
+    private EmbedBuilder createHelpEmbedBuilder(Command c)  {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL)
                 .setDescription(String.format("`%s%s`\n", c.getName(), c.getArguments()))
@@ -69,6 +74,6 @@ public class Help implements Consumer<CommandEvent>{
             embedBuilder.appendDescription(sb);
         }
 
-        return embedBuilder.build();
+        return embedBuilder;
     }
 }
