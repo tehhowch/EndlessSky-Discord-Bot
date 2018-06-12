@@ -69,31 +69,13 @@ public class James {
     }
 
     private void addCommands(CommandClientBuilder builder, String githubToken) throws IOException {
-        ArrayList<File> paths = fetchGameData(githubToken);
+        log.info("Downloading game data...");
+        ArrayList<File> paths = Util.fetchGameData(githubToken);
         ArrayList<DataFile> dataFiles = new ArrayList<>();
         for (File path : paths)
             dataFiles.add(new DataFile(path.getAbsolutePath()));
         Lookups lookups = new Lookups(dataFiles);
 
         builder.addCommands(new Issue(), new Showdata(lookups), new SwizzleImage(), new Info());
-    }
-
-    private ArrayList<File> fetchGameData(String githubToken) throws IOException {
-        Path temp = Files.createTempDirectory("james");
-        File data = new File(temp.toAbsolutePath() + "/data/");
-        data.mkdir();
-
-        log.info("Downloading game data...");
-        JSONArray json = new JSONArray(Util.getContentFromUrl("https://api.github.com/repos/endless-sky/endless-sky/contents/data?ref=master&access_token=" + githubToken));
-        for (Object o : json) {
-            JSONObject j = (JSONObject) o;
-            Util.downloadFile(j.getString("download_url"), data.toPath());
-        }
-        ArrayList<File> sources = Sources.getSources(temp, null);
-        Files.walk(temp)
-                .sorted(Comparator.reverseOrder())
-                .map(Path::toFile)
-                .forEach(File::delete);
-        return sources;
     }
 }
