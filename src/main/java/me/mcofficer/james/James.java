@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.Sources;
 import me.mcofficer.james.commands.Help;
+import me.mcofficer.james.commands.Info;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
 import me.mcofficer.james.commands.lookup.Issue;
 import me.mcofficer.james.commands.lookup.Showdata;
@@ -74,7 +75,7 @@ public class James {
             dataFiles.add(new DataFile(path.getAbsolutePath()));
         Lookups lookups = new Lookups(dataFiles);
 
-        builder.addCommands(new Issue(), new Showdata(lookups), new SwizzleImage());
+        builder.addCommands(new Issue(), new Showdata(lookups), new SwizzleImage(), new Info());
     }
 
     private ArrayList<File> fetchGameData(String githubToken) throws IOException {
