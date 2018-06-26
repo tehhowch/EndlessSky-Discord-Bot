@@ -5,6 +5,7 @@ import me.mcofficer.esparser.DataFile;
 import me.mcofficer.james.commands.Help;
 import me.mcofficer.james.commands.Info;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
+import me.mcofficer.james.commands.fun.*;
 import me.mcofficer.james.commands.lookup.*;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -80,6 +81,8 @@ public class James {
 
         builder.addCommands(new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
                 new SwizzleImage(),
-                new Info(githubToken));
+                new Info(githubToken),
+                new Cat(), new Dog(), new Birb()
+        );
     }
 }
