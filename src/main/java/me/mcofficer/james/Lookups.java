@@ -49,6 +49,20 @@ public class Lookups {
         return sb.toString();
     }
 
+    public String[] getLookupByString(String query) {
+        DataNode node = getNodeByString(query);
+        return new String[]{getImageUrl(node), getDescription(node)};
+    }
+
+    public String getDescriptionByString(String query) {
+        return getDescription(getNodeByString(query));
+    }
+
+    private String getDescription(DataNode node) {
+        DataNode descNode = getDescriptionChildNode(node);
+        return String.join(" ", descNode.getTokens().subList(1, descNode.getTokens().size()));
+    }
+
     public String getImageUrlByString(String query) {
         return getImageUrl(getNodeByString(query));
     }
@@ -59,6 +73,15 @@ public class Lookups {
         for (String imagePath : imagePaths)
             if (imagePath.contains(path))
                 return imagePath;
+        return null;
+    }
+
+    private DataNode getDescriptionChildNode(DataNode node) {
+        for (DataNode child : node.getChildren()) {
+            String identifier = child.getTokens().get(0);
+            if (identifier.equals("description"))
+                return child;
+        }
         return null;
     }
 
