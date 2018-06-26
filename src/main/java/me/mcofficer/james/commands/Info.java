@@ -12,10 +12,10 @@ public class Info extends Command {
 
     private String commit;
 
-    public Info() {
+    public Info(String githubToken) {
         this.name = "info";
         this.help = "Shows information about the bot.";
-        getInfo();
+        getInfo(githubToken);
     }
 
     @Override
@@ -38,8 +38,8 @@ public class Info extends Command {
         event.reply(builder.build());
     }
 
-    private void getInfo() {
-        JSONObject latest = new JSONArray(Util.getContentFromUrl("https://api.github.com/repos/MCOfficer/EndlessSky-Discord-Bot/commits"))
+    private void getInfo(String githubToken) {
+        JSONObject latest = new JSONArray(Util.getContentFromUrl("https://api.github.com/repos/MCOfficer/EndlessSky-Discord-Bot/commits?access_token=" + githubToken))
                 .getJSONObject(0);
         commit = String.format("[%s](%s): %s", latest.getString("sha").substring(0, 7), latest.getString("html_url"),
                 latest.getJSONObject("commit").getString("message"));
