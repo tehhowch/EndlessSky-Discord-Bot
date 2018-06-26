@@ -78,7 +78,7 @@ public class James {
             log.info("Hdpi image paths fetched successfully.");
         }).start();
 
-        builder.addCommands(new Issue(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
+        builder.addCommands(new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
                 new SwizzleImage(),
                 new Info(githubToken));
     }
