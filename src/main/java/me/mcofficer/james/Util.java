@@ -48,8 +48,10 @@ public class Util {
 
     public static String getContentFromUrl(String url) {
         try {
-            InputStream is = new URL(url).openStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")));
+            HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+            connection.setRequestProperty("User-Agent", "MarioB(r)owser4.2");
+            connection.connect();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
             StringBuilder sb = new StringBuilder();
             int cp;
             while ((cp = reader.read()) != -1)
