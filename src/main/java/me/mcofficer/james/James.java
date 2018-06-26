@@ -6,6 +6,7 @@ import me.mcofficer.james.commands.Help;
 import me.mcofficer.james.commands.Info;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
 import me.mcofficer.james.commands.lookup.Issue;
+import me.mcofficer.james.commands.lookup.Show;
 import me.mcofficer.james.commands.lookup.Showdata;
 import me.mcofficer.james.commands.lookup.Showimage;
 import net.dv8tion.jda.core.AccountType;
@@ -80,7 +81,7 @@ public class James {
             log.info("Hdpi image paths fetched successfully.");
         }).start();
 
-        builder.addCommands(new Issue(), new Showdata(lookups), new Showimage(lookups),
+        builder.addCommands(new Issue(), new Showdata(lookups), new Showimage(lookups), new Show(lookups),
                 new SwizzleImage(),
                 new Info(githubToken));
     }
