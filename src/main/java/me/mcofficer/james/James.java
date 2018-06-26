@@ -7,6 +7,7 @@ import me.mcofficer.james.commands.Info;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
 import me.mcofficer.james.commands.lookup.Issue;
 import me.mcofficer.james.commands.lookup.Showdata;
+import me.mcofficer.james.commands.lookup.Showimage;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -68,7 +69,6 @@ public class James {
         for (File path : paths)
             dataFiles.add(new DataFile(path.getAbsolutePath()));
 
-        builder.addCommands(new Issue(), new Showdata(lookups), new SwizzleImage(), new Info());
         log.info("Fetching image paths...");
         ArrayList<String> imagePaths = Util.get1xImagePaths(githubToken);
         Lookups lookups = new Lookups(dataFiles, imagePaths);
@@ -80,5 +80,8 @@ public class James {
             log.info("Hdpi image paths fetched successfully.");
         }).start();
 
+        builder.addCommands(new Issue(), new Showdata(lookups), new Showimage(lookups),
+                new SwizzleImage(),
+                new Info(githubToken));
     }
 }
