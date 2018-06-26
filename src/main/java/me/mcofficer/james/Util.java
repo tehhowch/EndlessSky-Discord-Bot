@@ -87,4 +87,34 @@ public class Util {
                 .forEach(File::delete);
         return sources;
     }
+
+    public static ArrayList<String> get1xImagePaths(String githubToken) {
+        return checkImageDir("https://api.github.com/repos/endless-sky/endless-sky/contents/images?ref=master", githubToken);
+    }
+
+    private static ArrayList<String> checkImageDir(String path, String githubToken) {
+        JSONArray json = new JSONArray(Util.getContentFromUrl(path + "&access_token=" + githubToken));
+        ArrayList<String> arrayList = new ArrayList<>();
+        for (Object o : json) {
+            JSONObject j = (JSONObject) o;
+            if (j.getString("type").equals("dir"))
+                arrayList.addAll(checkImageDir(j.getString("url"), githubToken));
+            else
+                arrayList.add(j.getString("download_url"));
+        }
+        return arrayList;
+    }
+
+    public static ArrayList<String> get2xImagePaths(ArrayList<String> imagePaths) {
+        ArrayList<String> revisedPaths = new ArrayList<>();
+        for (String path : imagePaths) {
+            String revised = path.replace("endless-sky/master", "endless-sky-high-dpi/master")
+                    .replace(".png", "@2x.png");
+            if (getHttpStatus(path) == 200)
+                revisedPaths.add(revised);
+            else
+                revisedPaths.add(path);
+        }
+        return revisedPaths;
+    }
 }

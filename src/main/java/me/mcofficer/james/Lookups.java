@@ -8,9 +8,11 @@ import java.util.ArrayList;
 public class Lookups {
 
     final ArrayList<DataFile> dataFiles;
+    ArrayList<String> imagePaths;
 
-    public Lookups(ArrayList<DataFile> dataFiles) {
+    public Lookups(ArrayList<DataFile> dataFiles, ArrayList<String> imagePaths) {
         this.dataFiles = dataFiles;
+        this.imagePaths = imagePaths;
     }
 
     public DataNode getNodeByString(String query) {
@@ -45,5 +47,27 @@ public class Lookups {
             sb.append("\t\t")
                     .append(printNodeRecursive(child).replace("\n", "\n\t"));
         return sb.toString();
+    }
+
+    public String getImageUrlByString(String query) {
+        return getImageUrl(getNodeByString(query));
+    }
+
+    private String getImageUrl(DataNode node) {
+        DataNode imageNode = getImageChildNode(node);
+        String path = String.join(" ", imageNode.getTokens().subList(1, imageNode.getTokens().size()));
+        for (String imagePath : imagePaths)
+            if (imagePath.contains(path))
+                return imagePath;
+        return null;
+    }
+
+    private DataNode getImageChildNode(DataNode node) {
+        for (DataNode child : node.getChildren()) {
+            String identifier = child.getTokens().get(0);
+            if (identifier.equals("sprite") || identifier.equals("thumbnail"))
+                return child;
+        }
+        return null;
     }
 }
