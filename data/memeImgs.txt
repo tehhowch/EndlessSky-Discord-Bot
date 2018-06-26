@@ -7,3 +7,4 @@ ion:hai.png
 kryes:kryes.png
 startome:startome.png
 argonian:argonian.png
+kinship:kinship.png
