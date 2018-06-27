@@ -1,4 +1,4 @@
-package me.mcofficer.james;
+package me.mcofficer.james.tools;
 
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.DataNode;
@@ -92,5 +92,17 @@ public class Lookups {
                 return child;
         }
         return null;
+    }
+
+    public ArrayList<String> getImagePaths() {
+        return imagePaths;
+    }
+
+    public void setImagePaths(ArrayList<String> imagePaths) {
+        this.imagePaths = imagePaths;
+    }
+
+    public ArrayList<DataFile> getDataFiles() {
+        return dataFiles;
     }
 }

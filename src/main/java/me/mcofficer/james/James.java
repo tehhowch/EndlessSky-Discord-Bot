@@ -7,6 +7,7 @@ import me.mcofficer.james.commands.Info;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
 import me.mcofficer.james.commands.fun.*;
 import me.mcofficer.james.commands.lookup.*;
+import me.mcofficer.james.tools.Lookups;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -75,7 +76,7 @@ public class James {
 
         log.info("Starting background thread to fetch hdpi image paths...");
         new Thread(() -> {
-            lookups.imagePaths = Util.get2xImagePaths(imagePaths);
+            lookups.setImagePaths(Util.get2xImagePaths(imagePaths));
             log.info("Hdpi image paths fetched successfully.");
         }).start();
 

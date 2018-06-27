@@ -2,7 +2,7 @@ package me.mcofficer.james.commands.lookup;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import me.mcofficer.james.Lookups;
+import me.mcofficer.james.tools.Lookups;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.MessageBuilder;
 

@@ -2,7 +2,7 @@ package me.mcofficer.james.commands.creatortools;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import me.mcofficer.james.ImageSwizzler;
+import me.mcofficer.james.tools.ImageSwizzler;
 import net.dv8tion.jda.core.entities.Message;
 
 import java.io.IOException;

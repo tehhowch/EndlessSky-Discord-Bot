@@ -1,4 +1,4 @@
-package me.mcofficer.james;
+package me.mcofficer.james.tools;
 
 import javax.annotation.Nullable;
 import javax.imageio.IIOImage;

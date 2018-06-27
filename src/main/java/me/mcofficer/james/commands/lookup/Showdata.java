@@ -2,7 +2,7 @@ package me.mcofficer.james.commands.lookup;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
-import me.mcofficer.james.Lookups;
+import me.mcofficer.james.tools.Lookups;
 
 public class Showdata extends Command {
 
