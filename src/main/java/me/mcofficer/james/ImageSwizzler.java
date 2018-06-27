@@ -1,7 +1,11 @@
 package me.mcofficer.james;
 
 import javax.annotation.Nullable;
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -31,7 +35,18 @@ public class ImageSwizzler {
             output = createSwizzledImage(img.getWidth(), img.getHeight(), channels, swizzles[Integer.valueOf(arg) - 1]);
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        ImageIO.write(output, "png", os);
+        ImageWriter writer = ImageIO.getImageWritersByFormatName("png").next();
+        writer.setOutput(new MemoryCacheImageOutputStream(os));
+
+        ImageWriteParam param = writer.getDefaultWriteParam();
+        if(param.canWriteCompressed()) {
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            param.setCompressionQuality(0.5f);
+        }
+
+        writer.write(null, new IIOImage(output, null, null), param);
+        writer.dispose();
+
         return new ByteArrayInputStream(os.toByteArray());
     }
 
