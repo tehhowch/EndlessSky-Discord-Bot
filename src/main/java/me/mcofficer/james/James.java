@@ -2,6 +2,7 @@ package me.mcofficer.james;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import me.mcofficer.esparser.DataFile;
+import me.mcofficer.james.audio.Audio;
 import me.mcofficer.james.commands.Help;
 import me.mcofficer.james.commands.Info;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
@@ -79,6 +80,8 @@ public class James {
             lookups.setImagePaths(Util.get2xImagePaths(imagePaths));
             log.info("Hdpi image paths fetched successfully.");
         }).start();
+
+        Audio audio = new Audio();
 
         builder.addCommands(new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
                 new SwizzleImage(),
