@@ -5,6 +5,8 @@ import me.mcofficer.esparser.DataFile;
 import me.mcofficer.james.audio.Audio;
 import me.mcofficer.james.commands.Help;
 import me.mcofficer.james.commands.Info;
+import me.mcofficer.james.commands.audio.Play;
+import me.mcofficer.james.commands.audio.Stop;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
 import me.mcofficer.james.commands.fun.*;
 import me.mcofficer.james.commands.lookup.*;
@@ -86,7 +88,8 @@ public class James {
         builder.addCommands(new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
                 new SwizzleImage(),
                 new Info(githubToken),
-                new Cat(), new Dog(), new Birb()
+                new Cat(), new Dog(), new Birb(),
+                new Play(audio), new Stop(audio)
         );
     }
 }
