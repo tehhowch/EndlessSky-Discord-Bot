@@ -54,7 +54,7 @@ implements CommandExecutor{
 		if(author.isBot()) return;
 		String[] parsed = Helper.getWords(args);
 		if(parsed.length == 0)
-			channel.sendMessage("Which template would you like? I have three flavours available: 'outfit', 'ship', 'thumbnail' and 'plugin'.").queue();
+			channel.sendMessage("Which template would you like? I have four flavours available: 'outfit', 'ship', 'thumbnail' and 'plugin'.").queue();
 		else
 			for(String str : parsed){
 				String name = "";
