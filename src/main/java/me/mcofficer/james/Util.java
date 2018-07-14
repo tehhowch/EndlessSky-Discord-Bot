@@ -112,7 +112,7 @@ public class Util {
         for (String path : imagePaths) {
             String revised = path.replace("endless-sky/master", "endless-sky-high-dpi/master")
                     .replace(".png", "@2x.png");
-            if (getHttpStatus(path) == 200)
+            if (getHttpStatus(revised) == 200)
                 revisedPaths.add(revised);
             else
                 revisedPaths.add(path);
