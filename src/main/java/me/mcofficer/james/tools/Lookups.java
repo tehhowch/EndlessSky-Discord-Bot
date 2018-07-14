@@ -88,7 +88,7 @@ public class Lookups {
     private DataNode getImageChildNode(DataNode node) {
         for (DataNode child : node.getChildren()) {
             String identifier = child.getTokens().get(0);
-            if (identifier.equals("sprite") || identifier.equals("thumbnail"))
+            if (identifier.equals("sprite") || identifier.equals("thumbnail") || identifier.equals("landscape"))
                 return child;
         }
         return null;
