@@ -4,6 +4,7 @@ import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.DataNode;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Lookups {
 
@@ -15,10 +16,9 @@ public class Lookups {
         this.imagePaths = imagePaths;
     }
 
-    public DataNode getNodeByString(String query) {
+    public List<DataNode> getNodesByString(String query) {
         query = query.toLowerCase();
-        int shortest = Integer.MAX_VALUE;
-        DataNode match = null;
+        ArrayList<DataNode> matches = new ArrayList<>();
 
         // preselect, assuming that the user did not make a typo
         for (DataFile file : dataFiles) {
@@ -26,13 +26,16 @@ public class Lookups {
                 String tokens = String.join(" ", node.getTokens()).trim().toLowerCase();
                 query = query.toLowerCase();
 
-                if(tokens.contains(query) && tokens.length() < shortest) {
-                    shortest= tokens.length();
-                    match = node;
-                }
+                if(tokens.contains(query))
+                    matches.add(node);
             }
         }
-        return match;
+
+        // Never return more than 10 results
+        if (matches.size() > 10)
+            return matches.subList(0, 10);
+
+        return matches;
     }
 
     public String getNodeAsText(DataNode node) {
@@ -49,26 +52,21 @@ public class Lookups {
         return sb.toString();
     }
 
-    public String[] getLookupByString(String query) {
-        DataNode node = getNodeByString(query);
+    public String[] getLookupByNode(DataNode node) {
         return new String[]{getImageUrl(node), getDescription(node)};
-    }
-
-    public String getDescriptionByString(String query) {
-        return getDescription(getNodeByString(query));
     }
 
     private String getDescription(DataNode node) {
         DataNode descNode = getDescriptionChildNode(node);
+        if (descNode == null)
+            return null;
         return String.join(" ", descNode.getTokens().subList(1, descNode.getTokens().size()));
     }
 
-    public String getImageUrlByString(String query) {
-        return getImageUrl(getNodeByString(query));
-    }
-
-    private String getImageUrl(DataNode node) {
+    public String getImageUrl(DataNode node) {
         DataNode imageNode = getImageChildNode(node);
+        if (imageNode == null)
+            return null;
         String path = String.join(" ", imageNode.getTokens().subList(1, imageNode.getTokens().size()));
         for (String imagePath : imagePaths)
             if (imagePath.contains(path))

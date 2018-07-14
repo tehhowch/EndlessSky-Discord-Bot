@@ -1,6 +1,10 @@
 package me.mcofficer.james;
 
+import com.jagrosh.jdautilities.command.CommandEvent;
+import com.jagrosh.jdautilities.menu.OrderedMenu;
+import me.mcofficer.esparser.DataNode;
 import me.mcofficer.esparser.Sources;
+import net.dv8tion.jda.core.entities.Message;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -15,6 +19,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.function.BiConsumer;
 
 public class Util {
 
@@ -71,6 +77,16 @@ public class Util {
         outputStream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
     }
 
+    public static void displayNodeSearchResults(List<DataNode> matches, CommandEvent event, BiConsumer<Message, Integer> selection) {
+        OrderedMenu.Builder builder = new OrderedMenu.Builder()
+                .setEventWaiter(James.eventWaiter)
+                .setSelection(selection)
+                .useCancelButton(true)
+                .setDescription("**Found the following Nodes:**")
+                .setColor(event.getGuild().getSelfMember().getColor());
+        matches.forEach(node -> builder.addChoice(String.join(" ", node.getTokens())));
+        builder.build().display(event.getChannel());
+    }
 
     public static ArrayList<File> fetchGameData(String githubToken) throws IOException {
         Path temp = Files.createTempDirectory("james");

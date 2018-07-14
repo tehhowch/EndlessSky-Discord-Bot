@@ -2,8 +2,14 @@ package me.mcofficer.james.commands.lookup;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.esparser.DataNode;
+import me.mcofficer.james.Util;
 import me.mcofficer.james.tools.Lookups;
 import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.MessageEmbed;
+
+import java.util.List;
 
 public class Lookup extends Command {
 
@@ -18,12 +24,32 @@ public class Lookup extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        String[] lookup = lookups.getLookupByString(event.getArgs());
+        List<DataNode> matches = lookups.getNodesByString(event.getArgs());
+
+        if (matches.size() < 1)
+            event.reply("Found no matches for `" + event.getArgs() + "`!");
+        else if (matches.size() == 1)
+            event.reply(createLookupMessage(matches.get(0), event.getGuild()));
+        else
+            Util.displayNodeSearchResults(matches, event, ((message, integer) -> event.reply(createLookupMessage(matches.get(integer - 1), event.getGuild()))));
+    }
+
+    private MessageEmbed createLookupMessage(DataNode node, Guild guild) {
+        String[] lookup = lookups.getLookupByNode(node);
 
         EmbedBuilder embedBuilder = new EmbedBuilder()
-                .setColor(event.getGuild().getSelfMember().getColor())
-                .setImage(lookup[0])
-                .setDescription(lookup[1]);
-        event.reply(embedBuilder.build());
+                .setColor(guild.getSelfMember().getColor());
+
+        if (lookup[0] == null)
+            embedBuilder.appendDescription("Couldn't find an image node!\n\n");
+        else
+            embedBuilder.setImage(lookup[0]);
+
+        if (lookup[1] == null)
+            embedBuilder.appendDescription("Couldn't find a description node!");
+        else
+            embedBuilder.setDescription(lookup[1]);
+
+        return embedBuilder.build();
     }
 }

@@ -1,6 +1,7 @@
 package me.mcofficer.james;
 
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
+import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.james.audio.Audio;
 import me.mcofficer.james.commands.Help;
@@ -29,6 +30,8 @@ public class James {
 
     public final static String GITHUB_URL = "https://github.com/MCOfficer/EndlessSky-Discord-Bot/";
     public final static String ES_GITHUB_URL = "https://github.com/endless-sky/endless-sky/";
+
+    public final static EventWaiter eventWaiter = new EventWaiter();
 
     Logger log = LoggerFactory.getLogger(James.class);
 
@@ -62,6 +65,7 @@ public class James {
         JDA jda = new JDABuilder(AccountType.BOT)
                 .setToken(cfg.getProperty("token"))
                 .addEventListener(clientBuilder.build())
+                .addEventListener(eventWaiter)
                 .buildBlocking();
     }
 
