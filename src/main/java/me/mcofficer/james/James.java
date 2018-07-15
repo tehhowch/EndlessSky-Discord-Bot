@@ -11,6 +11,7 @@ import me.mcofficer.james.commands.audio.Stop;
 import me.mcofficer.james.commands.creatortools.SwizzleImage;
 import me.mcofficer.james.commands.fun.*;
 import me.mcofficer.james.commands.lookup.*;
+import me.mcofficer.james.commands.moderation.Purge;
 import me.mcofficer.james.tools.Lookups;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -89,11 +90,13 @@ public class James {
 
         Audio audio = new Audio();
 
-        builder.addCommands(new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
-                new SwizzleImage(),
+        builder.addCommands(
                 new Info(githubToken),
+                new Play(audio), new Stop(audio),
+                new SwizzleImage(),
                 new Cat(), new Dog(), new Birb(),
-                new Play(audio), new Stop(audio)
+                new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
+                new Purge()
         );
     }
 }
