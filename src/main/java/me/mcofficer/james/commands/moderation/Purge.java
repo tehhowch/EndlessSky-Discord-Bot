@@ -19,7 +19,7 @@ public class Purge extends Command {
         if (event.getMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_MANAGE)) {
             try {
                 int amount = Integer.valueOf(event.getArgs());
-                if (amount < 1 || 100 < amount)
+                if (amount < 2 || 100 < amount)
                     throw new NumberFormatException();
                 TextChannel channel = event.getTextChannel();
 
@@ -37,7 +37,7 @@ public class Purge extends Command {
                 );
             }
             catch (NumberFormatException e) {
-                event.reply("'" + event.getArgs() + "' is not a valid integer between 1 and 100!");
+                event.reply("'" + event.getArgs() + "' is not a valid integer between 2 and 100!");
                 return;
             }
         }
