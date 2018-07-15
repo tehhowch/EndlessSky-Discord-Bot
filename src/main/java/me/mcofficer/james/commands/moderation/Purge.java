@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.moderation;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -42,7 +43,7 @@ public class Purge extends Command {
             }
         }
         else {
-            //TODO: sassy "access denied" message
+            event.reply(Util.GetRandomDeniedMessage());
         }
     }
 }

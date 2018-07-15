@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 import java.util.function.BiConsumer;
 
 public class Util {
@@ -68,6 +69,39 @@ public class Util {
             e.printStackTrace();
             return "";
         }
+    }
+
+    /**
+     * Returns a random "access denied" message, for humorously dismissing
+     * Discord chatters who overstep.
+     * @return "Access Denied" string.
+     */
+    public static String GetRandomDeniedMessage(){
+        final String[] messageList = {
+                "You can't order me around.",
+                "I don't listen to you.",
+                "You're not my boss.",
+                "Try harder.",
+                "You think you're a hotshot pirate?",
+                "Your attempt at using 'Pug Magic' has failed.",
+                "You're no Admiral Danforth.",
+                "As if.",
+                "That prison on Clink is looking rather empty...",
+                "Oh yeah?",
+                "Nice try.",
+                "I may be old, but I'm not dumb.",
+                "I'll pretend you didn't say that.",
+                "Not today.",
+                "Oh, to be young again...",
+                "*yawn*",
+                "I have the power. You don't.",
+                "Go play in a hyperspace lane.",
+                "How about I put *you* in the airlock?",
+                "Access Denied.",
+                "Please don't joke about that sort of thing."
+        };
+        int choice = new Random().nextInt(messageList.length);
+        return messageList[choice];
     }
 
     public static void downloadFile(String url, Path targetDir) throws IOException {
