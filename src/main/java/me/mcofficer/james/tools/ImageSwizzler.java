@@ -1,6 +1,5 @@
 package me.mcofficer.james.tools;
 
-import javax.annotation.Nullable;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
@@ -24,7 +23,7 @@ public class ImageSwizzler {
             "gbb"
     };
 
-    public InputStream swizzle(InputStream imgStream, @Nullable String arg) throws IOException {
+    public InputStream swizzle(InputStream imgStream, String arg) throws IOException {
         BufferedImage img = ImageIO.read(imgStream);
         int[][][] channels = splitByChannels(img);
 
