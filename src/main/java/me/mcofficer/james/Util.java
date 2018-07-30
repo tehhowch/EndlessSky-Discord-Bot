@@ -4,9 +4,13 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.menu.OrderedMenu;
 import me.mcofficer.esparser.DataNode;
 import me.mcofficer.esparser.Sources;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.TextChannel;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -24,6 +28,8 @@ import java.util.Random;
 import java.util.function.BiConsumer;
 
 public class Util {
+
+    static Logger log = LoggerFactory.getLogger(Util.class);
 
     /**
      * Checks a URL for the HTTP status code.
@@ -68,6 +74,17 @@ public class Util {
         catch (IOException e) {
             e.printStackTrace();
             return "";
+        }
+    }
+
+    public static void log(Guild guild, String message) {
+        TextChannel modLog;
+        try {
+            modLog = guild.getTextChannelsByName("mod-log", true).get(0);
+            modLog.sendMessage(message).queue();
+        }
+        catch (IndexOutOfBoundsException | NullPointerException e) {
+            log.error("Failed to find #mod-log channel in guild " + guild.getId() + ", moderation actions will not be logged.");
         }
     }
 

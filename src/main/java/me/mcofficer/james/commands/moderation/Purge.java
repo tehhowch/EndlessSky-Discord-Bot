@@ -26,20 +26,25 @@ public class Purge extends Command {
 
                 event.getMessage().delete().queue( a ->
                     channel.getHistory().retrievePast(amount).queue( messages -> {
-                        channel.deleteMessages(messages).queue( b ->{
-                            EmbedBuilder embedBuilder = new EmbedBuilder()
-                                    .setTitle("Moderation")
-                                    .setColor(event.getGuild().getSelfMember().getColor())
-                                    .setDescription("Spaced " + messages.size() + " Messages! Who's next?!");
-                            event.reply(embedBuilder.build());
-                            //TODO: Log to #mod-log
-                        });
+                        try {
+                            channel.deleteMessages(messages).queue(b -> {
+                                EmbedBuilder embedBuilder = new EmbedBuilder()
+                                        .setTitle("Moderation")
+                                        .setColor(event.getGuild().getSelfMember().getColor())
+                                        .setDescription("Spaced " + messages.size() + " Messages! Who's next?!");
+                                event.reply(embedBuilder.build());
+                                Util.log(event.getGuild(), String.format("Purged %s messages in %s, ordered by `%s`.",
+                                        amount, channel.getAsMention(), event.getMember().getEffectiveName()));
+                            });
+                        }
+                        catch(IllegalArgumentException e) {
+                            event.reply(event.getMember().getAsMention() + " One or more messages are older than 2 weeks and cannot be deleted.");
+                        }
                     })
                 );
             }
             catch (NumberFormatException e) {
                 event.reply("'" + event.getArgs() + "' is not a valid integer between 2 and 100!");
-                return;
             }
         }
         else {
