@@ -50,6 +50,8 @@ public class Lookup extends Command {
         else
             embedBuilder.setDescription(lookup[1]);
 
+        embedBuilder.appendDescription("\n\n" + lookups.getLinks(node));
+
         return embedBuilder.build();
     }
 }
