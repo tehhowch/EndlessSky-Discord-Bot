@@ -6,6 +6,7 @@ import me.mcofficer.esparser.DataNode;
 import me.mcofficer.esparser.Sources;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -119,6 +120,29 @@ public class Util {
         };
         int choice = new Random().nextInt(messageList.length);
         return messageList[choice];
+    }
+
+    /**
+     * Searches through a Guild guild to find the Roles associated with the Array's Strings.
+     * Returns only those Roles contained in the Array and the Query.
+     * @param query The Search String, contains Rolenames separated by spaces
+     * @param guild The Guild to search in
+     * @param optinRoles The "Free to Join" Roles
+     * @return Possibly empty List of Roles.
+     */
+    public static List<Role> getOptinRolesByQuery(String query, Guild guild, String[] optinRoles) {
+        ArrayList<Role> add = new ArrayList<>();
+        for (String arg : query.split(" ")) {
+            try {
+                for (String optinRole : optinRoles)
+                    if (arg.equalsIgnoreCase(optinRole))
+                        add.add(guild.getRolesByName(arg, true).get(0));
+            }
+            catch (IndexOutOfBoundsException e) {
+                e.printStackTrace();
+            }
+        }
+        return add;
     }
 
     public static void downloadFile(String url, Path targetDir) throws IOException {

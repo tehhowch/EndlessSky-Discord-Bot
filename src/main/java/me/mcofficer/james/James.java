@@ -4,14 +4,12 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.james.audio.Audio;
-import me.mcofficer.james.commands.Help;
-import me.mcofficer.james.commands.Info;
-import me.mcofficer.james.commands.audio.Play;
-import me.mcofficer.james.commands.audio.Stop;
-import me.mcofficer.james.commands.creatortools.SwizzleImage;
+import me.mcofficer.james.commands.*;
+import me.mcofficer.james.commands.audio.*;
+import me.mcofficer.james.commands.creatortools.*;
 import me.mcofficer.james.commands.fun.*;
 import me.mcofficer.james.commands.lookup.*;
-import me.mcofficer.james.commands.moderation.Purge;
+import me.mcofficer.james.commands.moderation.*;
 import me.mcofficer.james.tools.Lookups;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
@@ -34,10 +32,11 @@ public class James {
 
     public final static EventWaiter eventWaiter = new EventWaiter();
 
+    private static Properties cfg = new Properties();
+
     Logger log = LoggerFactory.getLogger(James.class);
 
     public static void main(String[] args) {
-        Properties cfg = new Properties();
         try {
             cfg.load(new FileReader("james.properties"));
         }
@@ -90,13 +89,15 @@ public class James {
 
         Audio audio = new Audio();
 
+        String[] optinRoles = cfg.getProperty("optinRoles").split(",");
+
         builder.addCommands(
                 new Info(githubToken),
                 new Play(audio), new Stop(audio),
                 new SwizzleImage(),
                 new Cat(), new Dog(), new Birb(),
                 new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
-                new Purge()
+                new Purge(), new Optin(optinRoles), new Optout(optinRoles)
         );
     }
 }

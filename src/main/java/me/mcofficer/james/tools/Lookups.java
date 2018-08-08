@@ -19,7 +19,6 @@ public class Lookups {
         this.imagePaths = imagePaths;
     }
 
-
     /**
      * Compiles online references for the given Node, which can be used in Embeds.
      * @param node  The Node in question.
