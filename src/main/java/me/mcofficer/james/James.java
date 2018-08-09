@@ -92,7 +92,7 @@ public class James {
         String[] optinRoles = cfg.getProperty("optinRoles").split(",");
 
         builder.addCommands(
-                new Info(githubToken),
+                new Info(githubToken), new Eval(lookups, cfg),
                 new Play(audio), new Stop(audio),
                 new SwizzleImage(),
                 new Cat(), new Dog(), new Birb(),
