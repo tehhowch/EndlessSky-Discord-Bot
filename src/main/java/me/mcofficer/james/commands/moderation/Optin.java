@@ -14,7 +14,7 @@ public class Optin extends Command {
     private final String sTimeoutRole;
 
     public Optin(String[] optinRoles, String timeoutRole) {
-        this.name = "Optin";
+        this.name = "optin";
         this.help = "Adds the user to one or more roles X (, Y, Z). A list of free-to-join roles can be found in the rules.";
         this.arguments = "X [Y Z]";
         this.optinRoles = optinRoles;

@@ -13,7 +13,7 @@ public class Optout extends Command {
     private final String[] optinRoles;
 
     public Optout(String[] optinRoles) {
-        this.name = "Optout";
+        this.name = "optout";
         this.help = "Removes the user from one or more roles X (, Y, Z). A list of free-to-join roles can be found in the rules.";
         this.arguments = "X [Y Z]";
         this.optinRoles = optinRoles;

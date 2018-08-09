@@ -7,7 +7,7 @@ import me.mcofficer.james.Util;
 public class Birb extends Command{
 
     public Birb() {
-        this.name = "Birb";
+        this.name = "birb";
         this.help = "Posts a random birb image.";
     }
 

@@ -42,7 +42,10 @@ public class Help implements Consumer<CommandEvent>{
         StringBuilder sb = new StringBuilder();
 
         for (Command c : commands) {
-            sb.append(String.format("`%s%s %s`", prefix, c.getName(), c.getArguments()));
+            if (c.isHidden())
+                continue;
+
+            sb.append(String.format("`%s%s %s`", prefix, c.getName(), c.getArguments() == null ? "" : c.getArguments()));
             if (c.getAliases().length > 0) {
                 sb.append(" (");
                 for (String alias : c.getAliases())
@@ -62,7 +65,7 @@ public class Help implements Consumer<CommandEvent>{
     private EmbedBuilder createHelpEmbedBuilder(Command c)  {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL)
-                .setDescription(String.format("`%s%s`\n", c.getName(), c.getArguments()))
+                .setDescription(String.format("`%s%s`\n", c.getName(), c.getArguments() == null ? "" : c.getArguments()))
                 .appendDescription(c.getHelp() + "\n");
 
         if (c.getAliases().length > 0) {

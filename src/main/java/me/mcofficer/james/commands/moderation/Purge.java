@@ -10,7 +10,7 @@ import net.dv8tion.jda.core.entities.TextChannel;
 public class Purge extends Command {
 
     public Purge() {
-        this.name = "Purge";
+        this.name = "purge";
         this.help = "Purges the last X messages from the current channel.";
         this.arguments = "X";
     }
