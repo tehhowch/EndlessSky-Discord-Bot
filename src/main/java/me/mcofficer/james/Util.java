@@ -94,7 +94,7 @@ public class Util {
      * Discord chatters who overstep.
      * @return "Access Denied" string.
      */
-    public static String GetRandomDeniedMessage(){
+    public static String getRandomDeniedMessage(){
         final String[] messageList = {
                 "You can't order me around.",
                 "I don't listen to you.",

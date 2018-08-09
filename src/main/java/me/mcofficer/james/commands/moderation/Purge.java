@@ -48,7 +48,7 @@ public class Purge extends Command {
             }
         }
         else {
-            event.reply(Util.GetRandomDeniedMessage());
+            event.reply(Util.getRandomDeniedMessage());
         }
     }
 }
