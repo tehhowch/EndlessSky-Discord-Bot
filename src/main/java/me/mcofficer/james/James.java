@@ -97,7 +97,7 @@ public class James {
                 new SwizzleImage(),
                 new Cat(), new Dog(), new Birb(),
                 new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
-                new Purge(), new Optin(optinRoles), new Optout(optinRoles)
+                new Purge(), new Optin(optinRoles), new Optout(optinRoles), new Timeout(cfg.getProperty("timeoutRole"))
         );
     }
 }
