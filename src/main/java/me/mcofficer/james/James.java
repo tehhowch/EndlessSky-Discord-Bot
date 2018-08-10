@@ -53,7 +53,6 @@ public class James {
     }
 
     private James(Properties cfg) throws LoginException, InterruptedException, IOException {
-        //TODO: Use custom help command (no DMs)
         CommandClientBuilder clientBuilder = new CommandClientBuilder()
                 .setPrefix("-")
                 .setGame(Game.listening("-help"))
@@ -66,7 +65,8 @@ public class James {
                 .setToken(cfg.getProperty("token"))
                 .addEventListener(clientBuilder.build())
                 .addEventListener(eventWaiter)
-                .buildBlocking();
+                .build()
+                .awaitReady();
     }
 
     private void addCommands(CommandClientBuilder builder, String githubToken) throws IOException {
