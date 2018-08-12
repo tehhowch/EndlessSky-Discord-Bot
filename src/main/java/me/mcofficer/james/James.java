@@ -8,6 +8,7 @@ import me.mcofficer.james.commands.*;
 import me.mcofficer.james.commands.audio.*;
 import me.mcofficer.james.commands.creatortools.*;
 import me.mcofficer.james.commands.fun.*;
+import me.mcofficer.james.commands.info.*;
 import me.mcofficer.james.commands.lookup.*;
 import me.mcofficer.james.commands.moderation.*;
 import me.mcofficer.james.tools.Lookups;
