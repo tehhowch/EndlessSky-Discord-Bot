@@ -32,7 +32,6 @@ public class James {
     public final static String ES_GITHUB_URL = "https://github.com/endless-sky/endless-sky/";
 
     public final static EventWaiter eventWaiter = new EventWaiter();
-
     private static Properties cfg = new Properties();
 
     Logger log = LoggerFactory.getLogger(James.class);
@@ -91,6 +90,7 @@ public class James {
         Audio audio = new Audio();
 
         String[] optinRoles = cfg.getProperty("optinRoles").split(",");
+        String[] ontopicCategories = cfg.getProperty("ontopicCategories").split(",");
 
         builder.addCommands(
                 new Eval(lookups, cfg),
@@ -99,7 +99,7 @@ public class James {
                 new Cat(), new Dog(), new Birb(),
                 new Info(githubToken), new Ping(),
                 new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
-                new Purge(), new Optin(optinRoles, cfg.getProperty("timeoutRole")), new Optout(optinRoles), new Timeout(cfg.getProperty("timeoutRole"))
+                new Purge(), new Optin(optinRoles, cfg.getProperty("timeoutRole")), new Optout(optinRoles), new Timeout(cfg.getProperty("timeoutRole")), new Activity(ontopicCategories)
         );
     }
 }
