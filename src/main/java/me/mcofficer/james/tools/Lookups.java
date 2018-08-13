@@ -3,7 +3,11 @@ package me.mcofficer.james.tools;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.DataNode;
 import me.mcofficer.james.Util;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -64,10 +68,50 @@ public class Lookups {
                 stringBuilder.append(String.format("[View the %s model in 3D](%swebplayer.html?load=%s)\n", nodeName, base_url, file));
         }
 
+        // endlesssky.mcofficer.me/assets/
+        for (String link : getAssetsUrls(node))
+            stringBuilder.append(String.format("[%s](%s)\n", link.substring(link.lastIndexOf('/') + 1).replace("%20", " "), link));
+
         //TODO: endless-sky.wikia.com
-        //TODO: endlesssky.mcofficer.me/assets/
 
         return stringBuilder.toString();
+    }
+
+    /**
+     * Attempts to fetch the source files corresponding with the DataNode node from endlesssky.mcofficer.me/assets/
+     * @param node
+     * @return A possibly-empty list of download URLs.
+     */
+    private List<String> getAssetsUrls(DataNode node) {
+        String dirUrl = "https://endlesssky.mcofficer.me/assets/assets%20for%20endless%20sky/";
+        String nodeType = node.getTokens().get(0);
+        String nodeName = String.join(" ", node.getTokens().subList(1, node.getTokens().size()));
+        List<String> returnUrls = new ArrayList<>();
+
+        if (nodeType.equals("ship"))
+            dirUrl += "ships/";
+        else if (nodeType.equals("outfit"))
+            dirUrl += "outfits/";
+        else if (nodeType.equals("projectile"))
+            dirUrl += "projectiles/";
+        else
+            return returnUrls;
+
+        Document doc;
+        try {
+            doc = Jsoup.connect(dirUrl).get();
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            return returnUrls;
+        }
+
+        for (Element link : doc.body().getElementsByTag("pre").get(0).children()) {
+            if (link.text().toLowerCase().contains(nodeName.toLowerCase()))
+                returnUrls.add(link.attr("abs:href"));
+        }
+
+        return returnUrls;
     }
 
     public List<DataNode> getNodesByString(String query) {
