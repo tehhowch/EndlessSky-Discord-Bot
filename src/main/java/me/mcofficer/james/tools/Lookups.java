@@ -7,6 +7,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
+import javax.annotation.CheckForNull;
+import javax.annotation.CheckReturnValue;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
@@ -82,6 +84,7 @@ public class Lookups {
      * @param node
      * @return A possibly-empty list of download URLs.
      */
+    @CheckReturnValue
     private List<String> getAssetsUrls(DataNode node) {
         String dirUrl = "https://endlesssky.mcofficer.me/assets/assets%20for%20endless%20sky/";
         String nodeType = node.getTokens().get(0);
@@ -114,6 +117,11 @@ public class Lookups {
         return returnUrls;
     }
 
+    /** Searches through the datafiles and returns 10 or less Nodes matching the query.
+     * @param query
+     * @return A possibly empty List of Nodes.
+     */
+    @CheckReturnValue
     public List<DataNode> getNodesByString(String query) {
         query = query.toLowerCase();
         ArrayList<DataNode> matches = new ArrayList<>();
@@ -150,10 +158,20 @@ public class Lookups {
         return sb.toString();
     }
 
+    /** Gets a description and image from a Node.
+     * @param node
+     * @return A possibly String[] possibly containing null.
+     */
+    @CheckReturnValue
     public String[] getLookupByNode(DataNode node) {
         return new String[]{getImageUrl(node, true), getDescription(node)};
     }
 
+    /** Gets the description of a Node.
+     * @param node
+     * @return A String or null.
+     */
+    @CheckForNull
     private String getDescription(DataNode node) {
         DataNode descNode = getDescriptionChildNode(node);
         if (descNode == null)
@@ -164,8 +182,9 @@ public class Lookups {
     /** Tries to get an Image URL from the Node node. If thumbnail is true, tries to get a thumbnail (instead of a sprite/landscape/...).
      * @param node
      * @param thumbnail
-     * @return
+     * @return A String or null.
      */
+    @CheckForNull
     public String getImageUrl(DataNode node, boolean thumbnail) {
         DataNode imageNode = getImageChildNode(node, thumbnail);
         if (imageNode == null)
@@ -182,6 +201,11 @@ public class Lookups {
         return null;
     }
 
+    /** Searches a Node for a description Subnode.
+     * @param node
+     * @return The Subnode containing the description.
+     */
+    @CheckForNull
     private DataNode getDescriptionChildNode(DataNode node) {
         for (DataNode child : node.getChildren()) {
             String identifier = child.getTokens().get(0);
@@ -196,6 +220,7 @@ public class Lookups {
      * @param thumbnail
      * @return The Subnode containing the relative image path.
      */
+    @CheckForNull
     private DataNode getImageChildNode(DataNode node, boolean thumbnail) {
         DataNode imageNode = null;
 
@@ -216,6 +241,12 @@ public class Lookups {
         return null;
     }
 
+    /** Searches a Node for an image Subnode of the type thumbnail.
+     * If you want to fallback to sprites/landscapes if no thumbnail exists, use {@link #getImageChildNode(DataNode, boolean)}.
+     * @param node
+     * @return The Subnode containing the relative image path.
+     */
+    @CheckForNull
     private DataNode getThumbnailChildNode(DataNode node) {
         for (DataNode child : node.getChildren())
             if (child.getTokens().get(0).equals("thumbnail"))

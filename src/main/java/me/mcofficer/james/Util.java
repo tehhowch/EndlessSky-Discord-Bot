@@ -13,6 +13,7 @@ import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.annotation.CheckReturnValue;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -60,6 +61,11 @@ public class Util {
         }
     }
 
+    /** Fetches the content reached at the URL as String. If the response is invalid, returns empty String.
+     * @param url
+     * @return
+     */
+    @CheckReturnValue
     public static String getContentFromUrl(String url) {
         try {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
@@ -78,6 +84,10 @@ public class Util {
         }
     }
 
+    /** Sends a message to the guild's #mod-log channel.
+     * @param guild
+     * @param message
+     */
     public static void log(Guild guild, String message) {
         TextChannel modLog;
         try {
@@ -145,6 +155,11 @@ public class Util {
         return add;
     }
 
+    /** Downloads a File and saves it in the target dir.
+     * @param url
+     * @param targetDir
+     * @throws IOException
+     */
     public static void downloadFile(String url, Path targetDir) throws IOException {
         String filename = url.substring(url.lastIndexOf('/'));
         ReadableByteChannel channel = Channels.newChannel(new URL(url).openStream());
@@ -152,6 +167,11 @@ public class Util {
         outputStream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
     }
 
+    /** Creates an OrderedMenu and sends it to the event's channel.
+     * @param matches The Nodes that should be displayed
+     * @param event The triggering event.
+     * @param selection A BiConsumer that gets called once the user makes a selection.
+     */
     public static void displayNodeSearchResults(List<DataNode> matches, CommandEvent event, BiConsumer<Message, Integer> selection) {
         OrderedMenu.Builder builder = new OrderedMenu.Builder()
                 .setEventWaiter(James.eventWaiter)
@@ -163,6 +183,11 @@ public class Util {
         builder.build().display(event.getChannel());
     }
 
+    /** Saves the ES data files and returns the temporary directory they were saved in. Should be removed afterwards.
+     * @param githubToken
+     * @return
+     * @throws IOException
+     */
     public static ArrayList<File> fetchGameData(String githubToken) throws IOException {
         Path temp = Files.createTempDirectory("james");
         File data = new File(temp.toAbsolutePath() + "/data/");
@@ -181,10 +206,19 @@ public class Util {
         return sources;
     }
 
+    /** Compiles a list of valid image URLs from the ES repository.
+     * @param githubToken
+     * @return A List of image URLs. Could theoretically be empty, if GitHub is down.
+     */
     public static ArrayList<String> get1xImagePaths(String githubToken) {
         return checkImageDir("https://api.github.com/repos/endless-sky/endless-sky/contents/images?ref=master", githubToken);
     }
 
+    /** Iterates recursively through a directory of the GitHub API and compiles a List of image paths. Only for use in {@link #get1xImagePaths(String)}.
+     * @param path
+     * @param githubToken
+     * @return
+     */
     private static ArrayList<String> checkImageDir(String path, String githubToken) {
         JSONArray json = new JSONArray(Util.getContentFromUrl(path + "&access_token=" + githubToken));
         ArrayList<String> arrayList = new ArrayList<>();
@@ -198,6 +232,10 @@ public class Util {
         return arrayList;
     }
 
+    /** Takes a list of image paths and replaces them with paths to the hdpi repository where applicable. Takes several minutes, run async!
+     * @param imagePaths
+     * @return A List of Image Paths, containing hdpi paths where possible.
+     */
     public static ArrayList<String> get2xImagePaths(ArrayList<String> imagePaths) {
         ArrayList<String> revisedPaths = new ArrayList<>();
         for (String path : imagePaths) {
