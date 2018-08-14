@@ -151,7 +151,7 @@ public class Lookups {
     }
 
     public String[] getLookupByNode(DataNode node) {
-        return new String[]{getImageUrl(node), getDescription(node)};
+        return new String[]{getImageUrl(node, true), getDescription(node)};
     }
 
     private String getDescription(DataNode node) {
@@ -161,8 +161,13 @@ public class Lookups {
         return String.join(" ", descNode.getTokens().subList(1, descNode.getTokens().size()));
     }
 
-    public String getImageUrl(DataNode node) {
-        DataNode imageNode = getImageChildNode(node);
+    /** Tries to get an Image URL from the Node node. If thumbnail is true, tries to get a thumbnail (instead of a sprite/landscape/...).
+     * @param node
+     * @param thumbnail
+     * @return
+     */
+    public String getImageUrl(DataNode node, boolean thumbnail) {
+        DataNode imageNode = getImageChildNode(node, thumbnail);
         if (imageNode == null)
             return null;
         String path = String.join(" ", imageNode.getTokens().subList(1, imageNode.getTokens().size()));
@@ -186,12 +191,35 @@ public class Lookups {
         return null;
     }
 
-    private DataNode getImageChildNode(DataNode node) {
+    /** Searches a Node for an image Subnode. If thumbnail is true, tries to get a thumbnail, otherwise sprite takes priority.
+     * @param node
+     * @param thumbnail
+     * @return The Subnode containing the relative image path.
+     */
+    private DataNode getImageChildNode(DataNode node, boolean thumbnail) {
+        DataNode imageNode = null;
+
+        if (thumbnail)
+            imageNode = getThumbnailChildNode(node);
+        if (imageNode != null)
+            return imageNode;
+
         for (DataNode child : node.getChildren()) {
             String identifier = child.getTokens().get(0);
-            if (identifier.equals("sprite") || identifier.equals("thumbnail") || identifier.equals("landscape"))
+            if (identifier.equals("sprite") || identifier.equals("landscape"))
                 return child;
         }
+
+        // No need to search for a thumbnail twice
+        if (!thumbnail)
+            return getThumbnailChildNode(node);
+        return null;
+    }
+
+    private DataNode getThumbnailChildNode(DataNode node) {
+        for (DataNode child : node.getChildren())
+            if (child.getTokens().get(0).equals("thumbnail"))
+                return child;
         return null;
     }
 

@@ -37,7 +37,7 @@ public class Showimage extends Command {
     private MessageEmbed createShowimageMessage(DataNode node, Guild guild) {
         return new EmbedBuilder()
                 .setColor(guild.getSelfMember().getColor())
-                .setImage(lookups.getImageUrl(node))
+                .setImage(lookups.getImageUrl(node, false))
                 .build();
     }
 }

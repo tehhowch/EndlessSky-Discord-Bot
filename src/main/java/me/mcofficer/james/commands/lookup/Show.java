@@ -38,7 +38,7 @@ public class Show extends Command {
     private Message createShowMessage(DataNode node, Guild guild) {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setColor(guild.getSelfMember().getColor())
-                .setImage(lookups.getImageUrl(node));
+                .setImage(lookups.getImageUrl(node, false));
         return new MessageBuilder()
                 .setEmbed(embedBuilder.isEmpty() ? null : embedBuilder.build()) // if no image was found, the embed builder cannot be built
                 .append("```")
