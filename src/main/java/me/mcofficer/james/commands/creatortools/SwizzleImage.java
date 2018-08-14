@@ -13,9 +13,9 @@ public class SwizzleImage extends Command {
     private final ImageSwizzler swizzler = new ImageSwizzler();
 
     public SwizzleImage() {
-        this.name = "swizzleimage";
-        this.help = "Applies the Swizzle X to the uploaded image[s]. If X is not defined, applies swizzles 1-6.";
-        this.arguments = "[X] <images as attachment>";
+        name = "swizzleimage";
+        help = "Applies the Swizzle X to the uploaded image[s]. If X is not defined, applies swizzles 1-6.";
+        arguments = "[X] <images as attachment>";
     }
 
     @Override

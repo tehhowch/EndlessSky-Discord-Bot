@@ -7,8 +7,8 @@ import me.mcofficer.james.Util;
 public class Birb extends Command{
 
     public Birb() {
-        this.name = "birb";
-        this.help = "Posts a random birb image.";
+        name = "birb";
+        help = "Posts a random birb image.";
     }
 
     @Override

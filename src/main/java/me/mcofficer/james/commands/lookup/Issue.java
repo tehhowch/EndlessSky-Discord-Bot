@@ -8,10 +8,10 @@ import me.mcofficer.james.Util;
 public class Issue extends Command{
 
     public Issue() {
-        this.name = "issue";
-        this.help = "Gets an issue from the ES repo by it's number.";
-        this.arguments = "<number>";
-        this.aliases = new String[]{"pull", "pr"};
+        name = "issue";
+        help = "Gets an issue from the ES repo by it's number.";
+        arguments = "<number>";
+        aliases = new String[]{"pull", "pr"};
     }
 
     @Override

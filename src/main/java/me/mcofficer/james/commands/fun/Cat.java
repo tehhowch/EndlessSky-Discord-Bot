@@ -8,8 +8,8 @@ import org.json.JSONObject;
 public class Cat extends Command{
 
     public Cat() {
-        this.name = "cat";
-        this.help = "Posts a random cat image.";
+        name = "cat";
+        help = "Posts a random cat image.";
     }
 
     @Override

@@ -16,9 +16,9 @@ public class Timeout extends Command {
     private final String sTimeoutRole;
 
     public Timeout(String timeoutRole) {
-        this.name = "timeout";
-        this.help = "Sends the Member(s) X [Y, Z] for S seconds to #the-corner. S must always be the last argument.";
-        this.arguments = "X [Y Z] S";
+        name = "timeout";
+        help = "Sends the Member(s) X [Y, Z] for S seconds to #the-corner. S must always be the last argument.";
+        arguments = "X [Y Z] S";
         sTimeoutRole = timeoutRole;
     }
 

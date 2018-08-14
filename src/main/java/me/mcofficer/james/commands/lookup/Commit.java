@@ -8,9 +8,9 @@ import me.mcofficer.james.Util;
 public class Commit extends Command{
 
     public Commit() {
-        this.name = "commit";
-        this.help = "Gets a commit from the ES repo by it's hash.";
-        this.arguments = "<hash>";
+        name = "commit";
+        help = "Gets a commit from the ES repo by it's hash.";
+        arguments = "<hash>";
     }
 
     @Override

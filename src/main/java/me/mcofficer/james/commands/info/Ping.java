@@ -8,8 +8,8 @@ import net.dv8tion.jda.core.EmbedBuilder;
 public class Ping extends Command {
 
     public Ping() {
-        this.name = "ping";
-        this.help = "Displays the time of the bot's last heartbeat.";
+        name = "ping";
+        help = "Displays the time of the bot's last heartbeat.";
     }
 
     @Override

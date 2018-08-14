@@ -16,9 +16,9 @@ public class Lookup extends Command {
     private final Lookups lookups;
 
     public Lookup(Lookups lookups) {
-        this.name = "lookup";
-        this.help = "Outputs the image and description of <query>.";
-        this.arguments = "<query>";
+        name = "lookup";
+        help = "Outputs the image and description of <query>.";
+        arguments = "<query>";
         this.lookups = lookups;
     }
 

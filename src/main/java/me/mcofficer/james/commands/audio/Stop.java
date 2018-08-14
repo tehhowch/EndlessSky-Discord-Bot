@@ -9,9 +9,9 @@ public class Stop extends Command {
     private final Audio audio;
 
     public Stop(Audio audio) {
-        this.name = "stop";
-        this.help = "Stops playback and disconnects from the VoiceChannel";
-        this.arguments = "<query>";
+        name = "stop";
+        help = "Stops playback and disconnects from the VoiceChannel";
+        arguments = "<query>";
 
         this.audio = audio;
     }

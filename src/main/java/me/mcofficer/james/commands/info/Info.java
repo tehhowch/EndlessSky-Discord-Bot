@@ -13,8 +13,8 @@ public class Info extends Command {
     private String commit;
 
     public Info(String githubToken) {
-        this.name = "info";
-        this.help = "Shows information about the bot.";
+        name = "info";
+        help = "Shows information about the bot.";
         getInfo(githubToken);
     }
 

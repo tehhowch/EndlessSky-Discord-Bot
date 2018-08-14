@@ -13,9 +13,9 @@ public class Showdata extends Command {
     private final Lookups lookups;
 
     public Showdata(Lookups lookups) {
-        this.name = "showdata";
-        this.help = "Outputs the data associated with <query>.";
-        this.arguments = "<query>";
+        name = "showdata";
+        help = "Outputs the data associated with <query>.";
+        arguments = "<query>";
         this.lookups = lookups;
     }
 

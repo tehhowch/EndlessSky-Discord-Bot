@@ -16,9 +16,9 @@ public class Showimage extends Command {
     private final Lookups lookups;
 
     public Showimage(Lookups lookups) {
-        this.name = "showimage";
-        this.help = "Outputs the image associated with <query>.";
-        this.arguments = "<query>";
+        name = "showimage";
+        help = "Outputs the image associated with <query>.";
+        arguments = "<query>";
         this.lookups = lookups;
     }
 

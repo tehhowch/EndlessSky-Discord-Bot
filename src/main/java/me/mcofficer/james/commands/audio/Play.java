@@ -9,9 +9,9 @@ public class Play extends Command {
     private final Audio audio;
 
     public Play(Audio audio) {
-        this.name = "play";
-        this.help = "Plays a track by it's url, or searches for it by a query";
-        this.arguments = "<query>";
+        name = "play";
+        help = "Plays a track by it's url, or searches for it by a query";
+        arguments = "<query>";
 
         this.audio = audio;
     }

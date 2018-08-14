@@ -14,10 +14,10 @@ public class Eval extends Command {
     private final Properties config;
 
     public Eval(Lookups lookups, Properties config) {
-        this.name = "eval";
-        this.arguments = "code";
-        this.hidden = true;
-        this.ownerCommand = true;
+        name = "eval";
+        arguments = "code";
+        hidden = true;
+        ownerCommand = true;
         this.lookups = lookups;
         this.config = config;
     }
