@@ -135,7 +135,7 @@ implements CommandExecutor{
 	public void onTimeoutCommand(Guild guild, TextChannel channel, Message msg, String[] args, Member mod){
 		if(mod.getUser().isBot()) return;
 		String[] parsed = Helper.getWords(args);
-		if(!Helper.CanModAndRoleChange(channel, mod))
+		if(!Helper.CanModerate(channel, mod))
 			channel.sendMessage(Helper.GetRandomDeniedMessage()).queue();
 		else if(parsed.length >= 2 && Helper.IsIntegerInRange(parsed[1], 1, 86400)){
 			// Put the mentioned user in the-corner unless they have the same perms (or are a bot).
