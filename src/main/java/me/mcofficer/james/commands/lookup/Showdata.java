@@ -6,6 +6,8 @@ import me.mcofficer.esparser.DataNode;
 import me.mcofficer.james.Util;
 import me.mcofficer.james.tools.Lookups;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Showdata extends Command {
@@ -26,12 +28,9 @@ public class Showdata extends Command {
         if (matches.size() < 1)
             event.reply("Found no matches for `" + event.getArgs() + "`!");
         else if (matches.size() == 1)
-            event.reply(createShowdataMessage(matches.get(0)));
+            Util.sendInChunks(event.getTextChannel(), lookups.getNodeAsText(matches.get(0)).split("(?=\n)"));
         else
-            Util.displayNodeSearchResults(matches, event, (((message, integer) -> event.reply(createShowdataMessage(matches.get(integer - 1))))));
-    }
-
-    private String createShowdataMessage(DataNode node) {
-        return "```" + lookups.getNodeAsText(node) + "```";
+            Util.displayNodeSearchResults(matches, event, ((message, integer) ->
+                    Util.sendInChunks(event.getTextChannel(), lookups.getNodeAsText(matches.get(integer - 1)).split("(?=\n)"))));
     }
 }

@@ -31,7 +31,7 @@ public class Showimage extends Command {
         else if (matches.size() == 1)
             event.reply(createShowimageMessage(matches.get(0), event.getGuild()));
         else
-            Util.displayNodeSearchResults(matches, event, ((message, integer) -> event.reply(createShowimageMessage(matches.get(integer - 1), event.getGuild()))));
+            Util.displayNodeSearchResults(matches, event, (message, integer) -> event.reply(createShowimageMessage(matches.get(integer - 1), event.getGuild())));
     }
 
     private MessageEmbed createShowimageMessage(DataNode node, Guild guild) {

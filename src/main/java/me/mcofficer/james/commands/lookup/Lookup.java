@@ -31,7 +31,7 @@ public class Lookup extends Command {
         else if (matches.size() == 1)
             event.reply(createLookupMessage(matches.get(0), event.getGuild()));
         else
-            Util.displayNodeSearchResults(matches, event, ((message, integer) -> event.reply(createLookupMessage(matches.get(integer - 1), event.getGuild()))));
+            Util.displayNodeSearchResults(matches, event, (message, integer) -> event.reply(createLookupMessage(matches.get(integer - 1), event.getGuild())));
     }
 
     private MessageEmbed createLookupMessage(DataNode node, Guild guild) {

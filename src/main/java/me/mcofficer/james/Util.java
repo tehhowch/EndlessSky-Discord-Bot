@@ -23,10 +23,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.function.BiConsumer;
 
 public class Util {
@@ -247,6 +244,16 @@ public class Util {
                 revisedPaths.add(path);
         }
         return revisedPaths;
+    }
+
+    /**
+     * Convenience method for {@link #sendInChunks(TextChannel, List, String, String)},
+     * accepts Arrays of Strings and assumes triple backticks as footer & header.
+     * @param channel
+     * @param output
+     */
+    public static void sendInChunks(TextChannel channel, String... output) {
+        sendInChunks(channel, Arrays.asList(output), "```", "```");
     }
 
     /**
