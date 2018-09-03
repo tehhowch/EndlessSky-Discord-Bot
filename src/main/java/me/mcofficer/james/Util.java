@@ -280,7 +280,7 @@ public class Util {
                 chunk.append(str);
             else{
                 channel.sendMessage(chunk.append(footer).toString()).queue();
-                chunk = new StringBuilder(header);
+                chunk = new StringBuilder(header + str);
             }
             chunkSize = chunk.length() + footer.length();
         }
