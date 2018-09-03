@@ -248,4 +248,37 @@ public class Util {
         }
         return revisedPaths;
     }
+
+    /**
+     * Utility function that will concatenate a list of strings into valid
+     * Discord messages.
+     * @param channel   The desired output channel
+     * @param output    The list of strings to write.
+     * @param header    A string that should prefix every chunk.
+     * @param footer    A string that should end every chunk.
+     */
+    public static void sendInChunks(TextChannel channel, List<String> output, String header, String footer){
+        if(output.isEmpty())
+            return;
+
+        StringBuilder chunk = new StringBuilder(header);
+        int chunkSize = chunk.length() + footer.length();
+        final int sizeLimit = 1990;
+        if(chunkSize > sizeLimit){
+            System.out.println("Cannot ever print: header + footer too large.");
+            return;
+        }
+        for(String str : output){
+            if(chunkSize + str.length() <= sizeLimit)
+                chunk.append(str);
+            else{
+                channel.sendMessage(chunk.append(footer).toString()).queue();
+                chunk = new StringBuilder(header);
+            }
+            chunkSize = chunk.length() + footer.length();
+        }
+        // Write the final chunk.
+        if(chunk.length() > header.length())
+            channel.sendMessage(chunk.append(footer).toString()).queue();
+    }
 }

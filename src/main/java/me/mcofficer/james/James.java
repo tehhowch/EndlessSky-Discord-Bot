@@ -99,7 +99,8 @@ public class James {
                 new Cat(), new Dog(), new Birb(),
                 new Info(githubToken), new Ping(),
                 new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
-                new Purge(), new Optin(optinRoles, cfg.getProperty("timeoutRole")), new Optout(optinRoles), new Timeout(cfg.getProperty("timeoutRole")), new Activity(ontopicCategories)
+                new Purge(), new Optin(optinRoles, cfg.getProperty("timeoutRole")), new Optout(optinRoles),
+                new Timeout(cfg.getProperty("timeoutRole")), new Activity(ontopicCategories), new Move()
         );
     }
 }
