@@ -297,11 +297,15 @@ public class Util {
      * @param logOnRelease
      */
     public static void replaceRolesTemporarily(Role temporaryRole, long seconds, Member member, String logOnCommand, String logOnRelease) {
-            List<Role> originalRoles = member.getRoles();
-            GuildController gc = member.getGuild().getController();
-            // Remove current roles & add temporary role
+        List<Role> originalRoles = member.getRoles();
+        GuildController gc = member.getGuild().getController();
+        // Remove current roles & add temporary role
+        if (member.getRoles().contains(temporaryRole))
+            Util.log(member.getGuild(), String.format("Attempted to give Role %s to %s, but %s already has it! Aborting Role Removal.",
+                    temporaryRole.getAsMention(), member.getAsMention(), member.getAsMention()));
+        else {
             gc.removeRolesFromMember(member, originalRoles).queue();
-            gc.addSingleRoleToMember(member, temporaryRole).queue( success1 ->
+            gc.addSingleRoleToMember(member, temporaryRole).queue(success1 ->
                     // Remove timout role & re-add old roles
                     gc.removeSingleRoleFromMember(member, temporaryRole).queueAfter(seconds, TimeUnit.SECONDS, success2 -> {
                         originalRoles.forEach(role -> gc.addSingleRoleToMember(member, role).queue());
@@ -309,5 +313,6 @@ public class Util {
                     })
             );
             Util.log(member.getGuild(), logOnCommand);
+        }
     }
 }
