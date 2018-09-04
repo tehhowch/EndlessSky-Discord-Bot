@@ -4,10 +4,8 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.menu.OrderedMenu;
 import me.mcofficer.esparser.DataNode;
 import me.mcofficer.esparser.Sources;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.core.entities.*;
+import net.dv8tion.jda.core.managers.GuildController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -24,6 +22,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 public class Util {
@@ -287,5 +286,28 @@ public class Util {
         // Write the final chunk.
         if(chunk.length() > header.length())
             channel.sendMessage(chunk.append(footer).toString()).queue();
+    }
+
+
+    /** Replaces a Member's Roles with temporaryRole for seconds, and logs the action to #mod-log.
+     * @param temporaryRole
+     * @param seconds
+     * @param member
+     * @param logOnCommand
+     * @param logOnRelease
+     */
+    public static void replaceRolesTemporarily(Role temporaryRole, long seconds, Member member, String logOnCommand, String logOnRelease) {
+            List<Role> originalRoles = member.getRoles();
+            GuildController gc = member.getGuild().getController();
+            // Remove current roles & add temporary role
+            gc.removeRolesFromMember(member, originalRoles).queue();
+            gc.addSingleRoleToMember(member, temporaryRole).queue( success1 ->
+                    // Remove timout role & re-add old roles
+                    gc.removeSingleRoleFromMember(member, temporaryRole).queueAfter(seconds, TimeUnit.SECONDS, success2 -> {
+                        originalRoles.forEach(role -> gc.addSingleRoleToMember(member, role).queue());
+                        Util.log(member.getGuild(), logOnRelease);
+                    })
+            );
+            Util.log(member.getGuild(), logOnCommand);
     }
 }

@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.Permission;
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.managers.GuildController;
@@ -36,29 +37,16 @@ public class Lawyer extends Command {
         long time;
         try {
             time = Long.valueOf(args[args.length - 1]);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             event.reply("Failed to parse \"" + args[args.length - 1] + "\"as Long!");
             return;
         }
-
-        GuildController gc = event.getGuild().getController();
-
         for (Member member : toFunderdome) {
-            List<Role> originalRoles = member.getRoles();
-
-            // Remove current roles & add timeout role
-            gc.removeRolesFromMember(member, originalRoles).queue();
-            gc.addSingleRoleToMember(member, laywerRole).queue( success1 ->
-                    // Remove timout role & re-add old roles
-                    gc.removeSingleRoleFromMember(member, laywerRole).queueAfter(time, TimeUnit.SECONDS, success2 -> {
-                        originalRoles.forEach(role -> gc.addSingleRoleToMember(member, role).queue());
-                        Util.log(event.getGuild(), "Released Member " + member.getAsMention() + " from the corner.");
-                })
-            );
-            Util.log(event.getGuild(), String.format("Sent Member %s to the corner for %s seconds (Ordered by `%s#%s`).",
-                    member.getAsMention(), time, event.getMember().getUser().getName(), event.getMember().getUser().getDiscriminator()));
+            String onCommand = String.format("Sent Member %s to the funderdome for %s seconds (Ordered by `%s#%s`).",
+                    member.getAsMention(), time, event.getMember().getUser().getName(), event.getMember().getUser().getDiscriminator());
+            String onRelease = "Released Member " + member.getAsMention() + " from the funderdome.";
+            Util.replaceRolesTemporarily(laywerRole, time, member, onCommand, onRelease);
         }
     }
 }

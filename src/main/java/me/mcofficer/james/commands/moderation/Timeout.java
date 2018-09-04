@@ -36,8 +36,7 @@ public class Timeout extends Command {
         long time;
         try {
             time = Long.valueOf(args[args.length - 1]);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             event.reply("Failed to parse \"" + args[args.length - 1] + "\"as Long!");
             return;
@@ -46,19 +45,10 @@ public class Timeout extends Command {
         GuildController gc = event.getGuild().getController();
 
         for (Member member : toTimeout) {
-            List<Role> originalRoles = member.getRoles();
-
-            // Remove current roles & add timeout role
-            gc.removeRolesFromMember(member, originalRoles).queue();
-            gc.addSingleRoleToMember(member, timeoutRole).queue( success1 ->
-                    // Remove timout role & re-add old roles
-                    gc.removeSingleRoleFromMember(member, timeoutRole).queueAfter(time, TimeUnit.SECONDS, success2 -> {
-                        originalRoles.forEach(role -> gc.addSingleRoleToMember(member, role).queue());
-                        Util.log(event.getGuild(), "Released Member " + member.getAsMention() + " from the corner.");
-                })
-            );
-            Util.log(event.getGuild(), String.format("Sent Member %s to the corner for %s seconds (Ordered by `%s#%s`).",
-                    member.getAsMention(), time, event.getMember().getUser().getName(), event.getMember().getUser().getDiscriminator()));
+            String onCommand = String.format("Sent Member %s to the corner for %s seconds (Ordered by `%s#%s`).",
+                    member.getAsMention(), time, event.getMember().getUser().getName(), event.getMember().getUser().getDiscriminator());
+            String onRelease = "Released Member " + member.getAsMention() + " from the corner.";
+            Util.replaceRolesTemporarily(timeoutRole, time, member, onCommand, onRelease);
         }
     }
 }
