@@ -111,9 +111,8 @@ public class Audio {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("Queueing `")
                 .appendDescription(track.getInfo().title)
-                .appendDescription("` (requested by `")
-                .appendDescription(event.getMember().getEffectiveName())
-                .appendDescription("`)");
+                .appendDescription("` (requested by ")
+                .appendDescription(event.getMember().getAsMention());
         event.reply(embedBuilder.build());
     }
 
@@ -129,9 +128,8 @@ public class Audio {
                 .appendDescription("`")
                 .appendDescription("(")
                 .appendDescription((String.valueOf(playlist.getTracks().size())))
-                .appendDescription(" tracks, requested by `")
-                .appendDescription(event.getMember().getEffectiveName())
-                .appendDescription("`)");
+                .appendDescription(" tracks, requested by ")
+                .appendDescription(event.getMember().getAsMention());
         event.reply(embedBuilder.build());
     }
 
@@ -147,9 +145,8 @@ public class Audio {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("Skipped Track `")
                 .appendDescription(trackScheduler.getPlayingTrack().getInfo().title)
-                .appendDescription("`, requested by `")
-                .appendDescription(event.getMember().getEffectiveName())
-                .appendDescription("`");
+                .appendDescription("`, requested by ")
+                .appendDescription(event.getMember().getAsMention());
         event.reply(embedBuilder.build());
     }
 
@@ -168,9 +165,8 @@ public class Audio {
 
     private void announceShuffle(CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("The Queue has been shuffled by `")
-                .appendDescription(event.getMember().getEffectiveName())
-                .appendDescription("`");
+                .appendDescription("The Queue has been shuffled by ")
+                .appendDescription(event.getMember().getAsMention());
         event.reply(embedBuilder.build());
     }
 }
