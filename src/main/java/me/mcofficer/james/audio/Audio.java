@@ -31,6 +31,9 @@ public class Audio {
         audioPlayerSendHandler = new AudioPlayerSendHandler(player);
     }
 
+    /** Connects to bot to a VoiceChannel.
+     * @param voiceChannel
+     */
     public void connect(VoiceChannel voiceChannel) {
         if (audioManager == null || (!audioManager.isConnected() && !audioManager.isAttemptingToConnect())) {
             audioManager = voiceChannel.getGuild().getAudioManager();
@@ -39,11 +42,21 @@ public class Audio {
         }
     }
 
+    /**
+     * Stops Playback, clears the Queue and disconnects from the VoiceChannel.
+     */
     public void stopAndDisconnect() {
         trackScheduler.stop();
         audioManager.closeAudioConnection();
     }
 
+    /**
+     * Attempts to load a track/playlist that matches the identifier.
+     * If successful, enqueues the item and calls {@link #announceTrack(AudioTrack, CommandEvent)}
+     * or {@link #announcePlaylist(AudioPlaylist, CommandEvent)} respectively.
+     * @param identifier
+     * @param event
+     */
     public void loadItem(String identifier, CommandEvent event) {
         playerManager.loadItem(identifier, new AudioLoadResultHandler() {
             @Override
@@ -77,12 +90,22 @@ public class Audio {
         });
     }
 
+    /**
+     * Creates an EmbedBuilder with title and color set.
+     * @param guild
+     * @return
+     */
     private EmbedBuilder createEmbedTemplate(Guild guild) {
         return new EmbedBuilder()
                 .setTitle("Audio-Player", James.GITHUB_URL)
                 .setColor(guild.getSelfMember().getColor());
     }
 
+    /**
+     * Announces that a new Track has been enqueued.
+     * @param track
+     * @param event
+     */
     private void announceTrack(AudioTrack track, CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("Queueing `")
@@ -93,6 +116,11 @@ public class Audio {
         event.reply(embedBuilder.build());
     }
 
+    /**
+     * Announces that a new Playlist has been enqueued.
+     * @param playlist
+     * @param event
+     */
     private void announcePlaylist(AudioPlaylist playlist, CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("Queueing Playlist`")
