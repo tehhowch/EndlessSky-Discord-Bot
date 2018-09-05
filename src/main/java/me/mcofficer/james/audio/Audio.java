@@ -160,4 +160,17 @@ public class Audio {
     public VoiceChannel getVoiceChannel() {
         return audioManager.getConnectedChannel();
     }
+
+    public void shuffle(CommandEvent event) {
+        trackScheduler.shuffle();
+        announceShuffle(event);
+    }
+
+    private void announceShuffle(CommandEvent event) {
+        EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
+                .appendDescription("The Queue has been shuffled by `")
+                .appendDescription(event.getMember().getEffectiveName())
+                .appendDescription("`");
+        event.reply(embedBuilder.build());
+    }
 }
