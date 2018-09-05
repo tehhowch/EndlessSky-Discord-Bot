@@ -15,6 +15,8 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 
+import javax.annotation.CheckForNull;
+
 public class Audio {
 
     private final AudioPlayerManager playerManager = new DefaultAudioPlayerManager();
@@ -31,7 +33,7 @@ public class Audio {
         audioPlayerSendHandler = new AudioPlayerSendHandler(player);
     }
 
-    /** Connects to bot to a VoiceChannel.
+    /** Connects to bot to a VoiceChannel. Silently fails if the bot is already connected.
      * @param voiceChannel
      */
     public void connect(VoiceChannel voiceChannel) {
@@ -91,9 +93,8 @@ public class Audio {
     }
 
     /**
-     * Creates an EmbedBuilder with title and color set.
      * @param guild
-     * @return
+     * @return an EmbedBuilder with title and color set.
      */
     private EmbedBuilder createEmbedTemplate(Guild guild) {
         return new EmbedBuilder()
@@ -132,5 +133,31 @@ public class Audio {
                 .appendDescription(event.getMember().getEffectiveName())
                 .appendDescription("`)");
         event.reply(embedBuilder.build());
+    }
+
+    /** Skips the currently playing Track and announces it.
+     * @param event
+     */
+    public void skip(CommandEvent event) {
+        announceSkip(event);
+        trackScheduler.skip();
+    }
+
+    private void announceSkip(CommandEvent event) {
+        EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
+                .appendDescription("Skipped Track `")
+                .appendDescription(trackScheduler.getPlayingTrack().getInfo().title)
+                .appendDescription("`, requested by `")
+                .appendDescription(event.getMember().getEffectiveName())
+                .appendDescription("`");
+        event.reply(embedBuilder.build());
+    }
+
+    /**
+     * @return the VoiceChannel the bot is connected to, or null if it's not connected at all.
+     */
+    @CheckForNull
+    public VoiceChannel getVoiceChannel() {
+        return audioManager.getConnectedChannel();
     }
 }
