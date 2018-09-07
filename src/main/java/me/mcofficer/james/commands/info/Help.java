@@ -58,7 +58,7 @@ public class Help implements Consumer<CommandEvent> {
                     sb.append(" (");
                     for (String alias : c.getAliases())
                         sb.append(String.format("`%s%s`, ", prefix, alias));
-                    sb.delete(sb.length() - 1, sb.length());
+                    sb.delete(sb.length() - 2, sb.length());
                     sb.append(")");
                 }
                 sb.append("\n");
