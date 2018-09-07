@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.audio;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.audio.Audio;
 
 public class Stop extends Command {
@@ -12,7 +13,7 @@ public class Stop extends Command {
         name = "stop";
         help = "Stops playback and disconnects from the VoiceChannel";
         arguments = "<query>";
-
+        category = James.audio;
         this.audio = audio;
     }
 

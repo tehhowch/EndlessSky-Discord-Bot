@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.creatortools;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.tools.ImageSwizzler;
 import net.dv8tion.jda.core.entities.Message;
 
@@ -16,6 +17,7 @@ public class SwizzleImage extends Command {
         name = "swizzleimage";
         help = "Applies the Swizzle X to the uploaded image[s]. If X is not defined, applies swizzles 1-6.";
         arguments = "[X] <images as attachment>";
+        category = James.creatorTools;
     }
 
     @Override

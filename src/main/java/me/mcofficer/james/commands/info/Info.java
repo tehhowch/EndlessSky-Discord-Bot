@@ -15,6 +15,7 @@ public class Info extends Command {
     public Info(String githubToken) {
         name = "info";
         help = "Shows information about the bot.";
+        category = James.info;
         getInfo(githubToken);
     }
 

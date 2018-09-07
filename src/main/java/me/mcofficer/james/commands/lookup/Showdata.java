@@ -3,6 +3,7 @@ package me.mcofficer.james.commands.lookup;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.esparser.DataNode;
+import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import me.mcofficer.james.tools.Lookups;
 
@@ -18,6 +19,7 @@ public class Showdata extends Command {
         name = "showdata";
         help = "Outputs the data associated with <query>.";
         arguments = "<query>";
+        category = James.lookup;
         this.lookups = lookups;
     }
 

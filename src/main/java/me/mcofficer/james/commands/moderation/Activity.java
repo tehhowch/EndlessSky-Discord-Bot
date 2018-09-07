@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.moderation;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -21,6 +22,7 @@ public class Activity extends Command {
         arguments = "X";
         help = "Provides stats about the activity of a Member X in the ontopic channels. For Mods only, has 30 seconds cooldown.";
         cooldown = 30;
+        category = James.moderation;
         this.ontopicCategories = ontopicCategories;
     }
 

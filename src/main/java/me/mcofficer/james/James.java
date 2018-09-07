@@ -1,5 +1,6 @@
 package me.mcofficer.james;
 
+import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.mcofficer.esparser.DataFile;
@@ -33,6 +34,13 @@ public class James {
 
     public final static EventWaiter eventWaiter = new EventWaiter();
     private static Properties cfg = new Properties();
+
+    public static Command.Category audio = new Command.Category("Audio");
+    public static Command.Category fun = new Command.Category("Fun");
+    public static Command.Category info = new Command.Category("Info");
+    public static Command.Category creatorTools = new Command.Category("Creator Tools");
+    public static Command.Category lookup = new Command.Category("Lookup");
+    public static Command.Category moderation = new Command.Category("Moderation");
 
     Logger log = LoggerFactory.getLogger(James.class);
 

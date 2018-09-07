@@ -9,7 +9,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Help implements Consumer<CommandEvent>{
+public class Help implements Consumer<CommandEvent> {
 
     private final List<Command> commands;
     private final String prefix;

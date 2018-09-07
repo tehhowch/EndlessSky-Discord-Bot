@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.audio;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.audio.Audio;
 
 public class Play extends Command {
@@ -12,7 +13,7 @@ public class Play extends Command {
         name = "play";
         help = "Plays a track by it's url, or searches for it by a query";
         arguments = "<query>";
-
+        category = James.audio;
         this.audio = audio;
     }
 

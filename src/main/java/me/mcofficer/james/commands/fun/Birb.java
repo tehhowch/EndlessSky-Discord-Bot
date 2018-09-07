@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.fun;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 
 public class Birb extends Command{
@@ -9,6 +10,7 @@ public class Birb extends Command{
     public Birb() {
         name = "birb";
         help = "Posts a random birb image.";
+        category = James.fun;
     }
 
     @Override

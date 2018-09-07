@@ -11,6 +11,7 @@ public class Issue extends Command{
         name = "issue";
         help = "Gets an issue from the ES repo by it's number.";
         arguments = "<number>";
+        category = James.lookup;
         aliases = new String[]{"pull", "pr"};
     }
 

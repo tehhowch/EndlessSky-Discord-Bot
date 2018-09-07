@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.audio;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.audio.Audio;
 
 public class Skip extends Command {
@@ -10,6 +11,7 @@ public class Skip extends Command {
     public Skip(Audio audio) {
         name = "skip";
         help = "Skips the currently playing song.";
+        category = James.audio;
         this.audio = audio;
     }
 

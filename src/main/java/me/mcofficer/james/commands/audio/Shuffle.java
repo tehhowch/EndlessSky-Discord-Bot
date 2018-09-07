@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.audio;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.audio.Audio;
 
 public class Shuffle extends Command {
@@ -10,6 +11,7 @@ public class Shuffle extends Command {
     public Shuffle(Audio audio) {
         name = "shuffle";
         help = "Shuffles the AudioPlayer's queue.";
+        category = James.audio;
         this.audio = audio;
     }
 

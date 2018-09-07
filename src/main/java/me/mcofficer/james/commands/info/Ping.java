@@ -10,6 +10,7 @@ public class Ping extends Command {
     public Ping() {
         name = "ping";
         help = "Displays the time of the bot's last heartbeat.";
+        category = James.info;
     }
 
     @Override

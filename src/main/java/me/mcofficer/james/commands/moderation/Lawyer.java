@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.moderation;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -20,6 +21,7 @@ public class Lawyer extends Command {
         this.name = "laywer";
         this.help = "Sends the Member(s) X [Y, Z] for S seconds to #funderdome. S must always be the last argument.";
         this.arguments = "X [Y Z] S";
+        category = James.moderation;
         sLaywerRole = laywerRole;
     }
 

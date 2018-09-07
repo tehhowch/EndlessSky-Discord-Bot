@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.moderation;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
@@ -9,7 +10,6 @@ import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.managers.GuildController;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 public class Timeout extends Command {
 
@@ -20,6 +20,7 @@ public class Timeout extends Command {
         help = "Sends the Member(s) X [Y, Z] for S seconds to #the-corner. S must always be the last argument.";
         arguments = "X [Y Z] S";
         sTimeoutRole = timeoutRole;
+        category = James.moderation;
     }
 
     @Override

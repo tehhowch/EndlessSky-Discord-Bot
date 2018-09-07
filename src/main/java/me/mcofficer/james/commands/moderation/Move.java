@@ -2,6 +2,7 @@ package me.mcofficer.james.commands.moderation;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
+import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.Permission;
@@ -21,6 +22,7 @@ public class Move extends Command {
         help = "Moves X messages to Channel Y. Removes Embeds in the process.";
         arguments = "X Y";
         aliases = new String[]{"wormhole"};
+        category = James.moderation;
     }
 
     @Override

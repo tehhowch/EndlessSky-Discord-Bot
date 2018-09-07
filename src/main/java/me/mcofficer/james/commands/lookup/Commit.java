@@ -11,6 +11,7 @@ public class Commit extends Command{
         name = "commit";
         help = "Gets a commit from the ES repo by it's hash.";
         arguments = "<hash>";
+        category = James.lookup;
     }
 
     @Override
