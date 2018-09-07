@@ -6,6 +6,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import net.dv8tion.jda.core.EmbedBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -38,22 +39,30 @@ public class Help implements Consumer<CommandEvent> {
     }
 
     private EmbedBuilder createHelpEmbedBuilder() {
+        List<Command.Category> categories = new ArrayList<>();
+        for (Command c : commands)
+            if (c.getCategory() != null && !categories.contains(c.getCategory()))
+                categories.add(c.getCategory());
+
         EmbedBuilder embedBuilder = new EmbedBuilder();
         StringBuilder sb = new StringBuilder();
 
-        for (Command c : commands) {
-            if (c.isHidden())
-                continue;
+        for (Command.Category category : categories) {
+            sb.append("\n__**").append(category.getName()).append(":**__\n");
+            for (Command c : commands) {
+                if (c.isHidden() || !c.getCategory().equals(category))
+                    continue;
 
-            sb.append(String.format("`%s%s %s`", prefix, c.getName(), c.getArguments() == null ? "" : c.getArguments()));
-            if (c.getAliases().length > 0) {
-                sb.append(" (");
-                for (String alias : c.getAliases())
-                    sb.append(String.format("`%s%s`, ", prefix, alias));
-                sb.delete(sb.length() - 1, sb.length());
-                sb.append(")");
+                sb.append(String.format("`%s%s %s`", prefix, c.getName(), c.getArguments() == null ? "" : c.getArguments()));
+                if (c.getAliases().length > 0) {
+                    sb.append(" (");
+                    for (String alias : c.getAliases())
+                        sb.append(String.format("`%s%s`, ", prefix, alias));
+                    sb.delete(sb.length() - 1, sb.length());
+                    sb.append(")");
+                }
+                sb.append("\n");
             }
-            sb.append("\n");
         }
 
         embedBuilder.setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL);
