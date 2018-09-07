@@ -38,6 +38,9 @@ public class Help implements Consumer<CommandEvent> {
                 }
     }
 
+    /**
+     * @return an EmbedBuilder containing a help text for all Commands defined in {@link #commands}.
+     */
     private EmbedBuilder createHelpEmbedBuilder() {
         List<Command.Category> categories = new ArrayList<>();
         for (Command c : commands)
@@ -71,6 +74,10 @@ public class Help implements Consumer<CommandEvent> {
         return embedBuilder;
     }
 
+    /**
+     * @param c A Command.
+     * @return An EmbedBuilder containing the help text for c.
+     */
     private EmbedBuilder createHelpEmbedBuilder(Command c)  {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL)

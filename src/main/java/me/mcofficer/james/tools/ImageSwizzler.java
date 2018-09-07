@@ -1,9 +1,11 @@
 package me.mcofficer.james.tools;
 
+import javax.annotation.Nullable;
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.stream.MemoryCacheImageOutputStream;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -23,7 +25,17 @@ public class ImageSwizzler {
             "gbb"
     };
 
-    public InputStream swizzle(InputStream imgStream, String arg) throws IOException {
+    /**
+     * Swizzles (swaps color channels) an image.
+     * If arg is defined, swaps an image's color channels in accordance to arg's value in {@link #swizzles}.
+     * Else returns an image with 2x height and 3x width, containing images of all color channel swaps defined in swizzles.
+     * @param imgStream The image.
+     * @param arg The number of the swizzle that should be applied.
+     * @return A .png-encoded image.
+     * @throws IOException if an error occurs during reading or writing.
+     * Blame {@link ImageIO#read(InputStream)} or {@link ImageWriter#write(IIOMetadata, IIOImage, ImageWriteParam)}.
+     */
+    public InputStream swizzle(InputStream imgStream, @Nullable String arg) throws IOException {
         BufferedImage img = ImageIO.read(imgStream);
         int[][][] channels = splitByChannels(img);
 

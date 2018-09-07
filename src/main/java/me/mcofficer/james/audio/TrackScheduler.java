@@ -17,18 +17,31 @@ public class TrackScheduler extends AudioEventAdapter {
         player.addListener(this);
     }
 
+    /**
+     * Shuffles the Queue.
+     */
     public void shuffle() {
         Collections.shuffle(queue);
     }
 
+    /**
+     * Removes the first song in the {@link #queue} and plays it. Stops playback if the queue is empty.
+     */
     public void skip() {
         play(queue.poll());
     }
 
+    /**
+     * Plays a track immediately. You probably want to use {@link #enqueue(AudioTrack)} instead.
+     * @param track
+     */
     public void play(AudioTrack track) {
         player.playTrack(track);
     }
 
+    /** Plays a track if nothing is playing currently, otherwise adds it to the {@link #queue}.
+     * @param track
+     */
     public void enqueue(AudioTrack track) {
         if(!player.startTrack(track, true)) //something is currently playing
             queue.offer(track);
@@ -38,6 +51,9 @@ public class TrackScheduler extends AudioEventAdapter {
         return player.getPlayingTrack();
     }
 
+    /**
+     * Stops Playback and clears the {@link #queue}.
+     */
     public void stop() {
         player.stopTrack();
         queue.clear();
