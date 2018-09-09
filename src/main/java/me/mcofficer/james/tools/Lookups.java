@@ -157,7 +157,7 @@ public class Lookups {
 
     /** Gets a description and image from a Node.
      * @param node
-     * @return A possibly String[] possibly containing null.
+     * @return A String[] possibly containing null.
      */
     @CheckReturnValue
     public String[] getLookupByNode(DataNode node) {
