@@ -6,14 +6,16 @@ import me.mcofficer.james.Util;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.simmetrics.StringMetric;
+import org.simmetrics.metrics.StringMetrics;
 
 import javax.annotation.CheckForNull;
 import javax.annotation.CheckReturnValue;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Lookups {
 
@@ -123,25 +125,20 @@ public class Lookups {
      */
     @CheckReturnValue
     public List<DataNode> getNodesByString(String query) {
-        query = query.toLowerCase();
-        ArrayList<DataNode> matches = new ArrayList<>();
-
-        // preselect, assuming that the user did not make a typo
+        Map<DataNode, Float> matches = new HashMap<>();
         for (DataFile file : dataFiles) {
             for (DataNode node : file.getNodes()) {
-                String tokens = String.join(" ", node.getTokens()).trim().toLowerCase();
-                query = query.toLowerCase();
-
-                if(tokens.contains(query))
-                    matches.add(node);
+                StringMetric metric = StringMetrics.needlemanWunch();
+                String tokens = String.join(" ", node.getTokens()).trim();
+                matches.put(node, metric.compare(query.toLowerCase(), tokens.toLowerCase()));
             }
         }
-
-        // Never return more than 10 results
-        if (matches.size() > 10)
-            return matches.subList(0, 10);
-
-        return matches;
+        // Sort in descending order & limit to 10 results
+        return matches.entrySet().stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
+                .limit(10)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
     }
 
     public String getNodeAsText(DataNode node) {
