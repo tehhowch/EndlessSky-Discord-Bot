@@ -129,7 +129,8 @@ public class Audio {
                 .appendDescription("(")
                 .appendDescription((String.valueOf(playlist.getTracks().size())))
                 .appendDescription(" tracks, requested by ")
-                .appendDescription(event.getMember().getAsMention());
+                .appendDescription(event.getMember().getAsMention())
+                .appendDescription(")");
         event.reply(embedBuilder.build());
     }
 
@@ -144,9 +145,10 @@ public class Audio {
     private void announceSkip(CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("Skipped Track `")
-                .appendDescription(trackScheduler.getPlayingTrack().getInfo().title)
+                .appendDescription(player.getPlayingTrack().getInfo().title)
                 .appendDescription("`, requested by ")
-                .appendDescription(event.getMember().getAsMention());
+                .appendDescription(event.getMember().getAsMention())
+                .appendDescription(")");
         event.reply(embedBuilder.build());
     }
 
