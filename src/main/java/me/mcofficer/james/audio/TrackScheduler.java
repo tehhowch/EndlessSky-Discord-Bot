@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 
+import javax.annotation.CheckForNull;
 import java.util.Collections;
 import java.util.LinkedList;
 
@@ -45,10 +46,6 @@ public class TrackScheduler extends AudioEventAdapter {
     public void enqueue(AudioTrack track) {
         if(!player.startTrack(track, true)) //something is currently playing
             queue.offer(track);
-    }
-
-    public AudioTrack getPlayingTrack() {
-        return player.getPlayingTrack();
     }
 
     /**

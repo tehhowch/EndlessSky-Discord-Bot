@@ -10,6 +10,7 @@ import com.sedmelluq.discord.lavaplayer.tools.FriendlyException;
 import com.sedmelluq.discord.lavaplayer.track.AudioPlaylist;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import me.mcofficer.james.James;
+import me.mcofficer.james.Util;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -170,5 +171,35 @@ public class Audio {
                 .appendDescription("The Queue has been shuffled by ")
                 .appendDescription(event.getMember().getAsMention());
         event.reply(embedBuilder.build());
+    }
+
+    /**
+     * @return The currently playing AudioTrack or null.
+     */
+    @CheckForNull
+    public AudioTrack getPlayingTrack() {
+        return player.getPlayingTrack();
+    }
+
+    /** Announces the currently playing Track.
+     * @param event
+     */
+    public void announceCurrentTrack(CommandEvent event) {
+        AudioTrack track = player.getPlayingTrack();
+        if (track == null)
+            event.reply("Not playing anything!");
+        else {
+            EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
+                    .appendDescription("**Playing:** ")
+                    .appendDescription(track.getInfo().title)
+                    .appendDescription(" [\uD83D\uDD17](")
+                    .appendDescription(track.getInfo().uri)
+                    .appendDescription(")\n**Time:** [")
+                    .appendDescription(Util.MilisToTimestring(track.getPosition()))
+                    .appendDescription(" / ")
+                    .appendDescription(Util.MilisToTimestring(track.getDuration()))
+                    .appendDescription("]");
+            event.reply(embedBuilder.build());
+        }
     }
 }

@@ -315,4 +315,22 @@ public class Util {
             Util.log(member.getGuild(), logOnCommand);
         }
     }
+
+    /**
+     * @param milis
+     * @return A String of the format HH:MM:SS (hours will be omitted if 0)
+     */
+    public static String MilisToTimestring(long milis) {
+        int seconds = (int) ((milis / 1000) % 60);
+        int minutes = (int) ((milis / (1000 * 60)) % 60);
+        int hours = (int) ((milis / (1000 * 60 * 60)) % 24);
+        int days = (int) (milis / (1000 * 60 * 60 * 24));
+
+        if(days > 0)
+            return String.format("%2dd %02d:%02d:%02d", days, hours, minutes, seconds);
+        else if(hours > 0)
+            return String.format("%02d:%02d:%02d", hours, minutes, seconds);
+        else
+            return String.format("%02d:%02d", minutes, seconds);
+    }
 }
