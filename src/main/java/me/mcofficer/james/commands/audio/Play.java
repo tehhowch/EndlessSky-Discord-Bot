@@ -19,7 +19,8 @@ public class Play extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (audio.getVoiceChannel() == null || event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel())) {
+        if (!event.getGuild().getSelfMember().getVoiceState().inVoiceChannel() ||
+                event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel())) {
             //TODO: search
             audio.connect(event.getMember().getVoiceState().getChannel());
             audio.loadItem(event.getArgs(), event);
