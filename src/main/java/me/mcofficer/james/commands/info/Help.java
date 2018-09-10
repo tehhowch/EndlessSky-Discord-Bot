@@ -29,6 +29,7 @@ public class Help implements Consumer<CommandEvent> {
                     .setColor(e.getGuild().getSelfMember().getColor())
                     .build());
         else
+            // TODO: Check for aliases
             for (Command c : commands)
                 if (c.getName().equalsIgnoreCase(e.getArgs())) {
                     e.reply(createHelpEmbedBuilder(c)
@@ -89,7 +90,7 @@ public class Help implements Consumer<CommandEvent> {
             StringBuilder sb = new StringBuilder();
             for (String alias : c.getAliases())
                 sb.append(String.format("`%s`, ", alias));
-            sb.delete(sb.length() - 1, sb.length());
+            sb.delete(sb.length() - 2, sb.length());
             embedBuilder.appendDescription(sb);
         }
 
