@@ -19,6 +19,7 @@ public class Stop extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        audio.stopAndDisconnect();
+        if (audio.getVoiceChannel() != null && event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel()))
+            audio.stopAndDisconnect();
     }
 }
