@@ -218,4 +218,22 @@ public class Audio {
                 .appendDescription("`)");
         event.reply(embedBuilder.build());
     }
+
+    /** Pauses playback and announces it.
+     * @param event
+     */
+    public void unpause(CommandEvent event) {
+        if (player.isPaused()) {
+            player.setPaused(false);
+            announceUnpause(event);
+        }
+    }
+
+    private void announceUnpause(CommandEvent event) {
+        EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
+                .appendDescription("The Audio Player has been unpaused.\n(requested by ")
+                .appendDescription(event.getMember().getAsMention())
+                .appendDescription("`)");
+        event.reply(embedBuilder.build());
+    }
 }
