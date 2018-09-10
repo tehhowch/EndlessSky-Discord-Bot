@@ -102,7 +102,7 @@ public class James {
 
         builder.addCommands(
                 new Eval(lookups, cfg),
-                new Play(audio), new Stop(audio), new Skip(audio), new Shuffle(audio), new Current(audio),
+                new Play(audio), new Stop(audio), new Skip(audio), new Shuffle(audio), new Current(audio), new Pause(audio),
                 new SwizzleImage(),
                 new Cat(), new Dog(), new Birb(),
                 new Info(githubToken), new Ping(),

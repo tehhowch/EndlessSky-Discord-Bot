@@ -202,4 +202,20 @@ public class Audio {
             event.reply(embedBuilder.build());
         }
     }
+
+    /** Pauses playback and announces it.
+     * @param event
+     */
+    public void pause(CommandEvent event) {
+        player.setPaused(true);
+        announcePause(event);
+    }
+
+    private void announcePause(CommandEvent event) {
+        EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
+                .appendDescription("The Audio Player has been paused.\n(requested by ")
+                .appendDescription(event.getMember().getAsMention())
+                .appendDescription("`)");
+        event.reply(embedBuilder.build());
+    }
 }
