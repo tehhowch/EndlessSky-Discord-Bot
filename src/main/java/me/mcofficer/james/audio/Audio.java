@@ -113,7 +113,8 @@ public class Audio {
                 .appendDescription("Queueing `")
                 .appendDescription(track.getInfo().title)
                 .appendDescription("` (requested by ")
-                .appendDescription(event.getMember().getAsMention());
+                .appendDescription(event.getMember().getAsMention())
+                .appendDescription("`)");
         event.reply(embedBuilder.build());
     }
 
