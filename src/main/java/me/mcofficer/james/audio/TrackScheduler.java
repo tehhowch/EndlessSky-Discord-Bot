@@ -56,4 +56,7 @@ public class TrackScheduler extends AudioEventAdapter {
         queue.clear();
     }
 
+    public LinkedList<AudioTrack> getQueue() {
+        return queue;
+    }
 }

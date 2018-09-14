@@ -1,6 +1,7 @@
 package me.mcofficer.james.audio;
 
 import com.jagrosh.jdautilities.command.CommandEvent;
+import com.jagrosh.jdautilities.menu.Paginator;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayerManager;
@@ -17,6 +18,8 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 import javax.annotation.CheckForNull;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Audio {
 
@@ -236,5 +239,35 @@ public class Audio {
                 .appendDescription(event.getMember().getAsMention())
                 .appendDescription("`)");
         event.reply(embedBuilder.build());
+    }
+
+    /**
+     * @param event
+     */
+    public void createQueueEmbed(CommandEvent event) {
+        LinkedList<AudioTrack> queue = trackScheduler.getQueue();
+
+        if(queue.isEmpty())
+            event.reply("The Queue is empty!");
+        else {
+            ArrayList<String> items = new ArrayList<>();
+            long queueLength = 0;
+            for(AudioTrack track : queue){
+                items.add(String.format("`[%s]` %s", Util.MilisToTimestring(track.getDuration()), track.getInfo().title));
+                queueLength += track.getDuration();
+            }
+
+            new Paginator.Builder()
+                    .setText(String.format("Showing %s Tracks. \n Total Queue Time Length: %s", queue.size(), Util.MilisToTimestring(queueLength)))
+                    .setItems(items.toArray(new String[0]))
+                    .setItemsPerPage(10)
+                    .setEventWaiter(James.eventWaiter)
+                    .setColor(event.getGuild().getSelfMember().getColor())
+                    .useNumberedItems(true)
+                    .waitOnSinglePage(true)
+                    .setBulkSkipNumber(items.size() > 50 ? 5 : 0) // Only show bulk skip buttons when the Queue is sufficiently large
+                    .build()
+                    .display(event.getChannel());
+        }
     }
 }
