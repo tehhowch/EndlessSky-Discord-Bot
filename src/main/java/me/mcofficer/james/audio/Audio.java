@@ -138,7 +138,8 @@ public class Audio {
                 .appendDescription((String.valueOf(playlist.getTracks().size())))
                 .appendDescription(" tracks, requested by ")
                 .appendDescription(event.getMember().getAsMention())
-                .appendDescription(")");
+                .appendDescription(")")
+                .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/play.png");
         event.reply(embedBuilder.build());
     }
 
@@ -156,7 +157,8 @@ public class Audio {
                 .appendDescription(player.getPlayingTrack().getInfo().title)
                 .appendDescription("`, requested by ")
                 .appendDescription(event.getMember().getAsMention())
-                .appendDescription(")");
+                .appendDescription(")")
+                .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/skip.png");
         event.reply(embedBuilder.build());
     }
 
@@ -176,7 +178,8 @@ public class Audio {
     private void announceShuffle(CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("The Queue has been shuffled by ")
-                .appendDescription(event.getMember().getAsMention());
+                .appendDescription(event.getMember().getAsMention())
+                .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/shuffle.png");
         event.reply(embedBuilder.build());
     }
 
@@ -223,7 +226,8 @@ public class Audio {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("The Audio Player has been paused.\n(requested by ")
                 .appendDescription(event.getMember().getAsMention())
-                .appendDescription("`)");
+                .appendDescription("`)")
+                .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/pause.png");;
         event.reply(embedBuilder.build());
     }
 
@@ -241,7 +245,8 @@ public class Audio {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("The Audio Player has been unpaused.\n(requested by ")
                 .appendDescription(event.getMember().getAsMention())
-                .appendDescription("`)");
+                .appendDescription("`)")
+                .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/play.png");
         event.reply(embedBuilder.build());
     }
 
