@@ -115,9 +115,11 @@ public class Audio {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                 .appendDescription("Queueing `")
                 .appendDescription(track.getInfo().title)
-                .appendDescription("` (requested by ")
+                .appendDescription("` [\uD83D\uDD17](")
+                .appendDescription(track.getInfo().uri)
+                .appendDescription(") (requested by ")
                 .appendDescription(event.getMember().getAsMention())
-                .appendDescription("`)")
+                .appendDescription(")")
                 .setThumbnail(getThumbnail(track));
         event.reply(embedBuilder.build());
     }
