@@ -117,7 +117,8 @@ public class Audio {
                 .appendDescription(track.getInfo().title)
                 .appendDescription("` (requested by ")
                 .appendDescription(event.getMember().getAsMention())
-                .appendDescription("`)");
+                .appendDescription("`)")
+                .setThumbnail(getThumbnail(track));
         event.reply(embedBuilder.build());
     }
 
@@ -202,7 +203,8 @@ public class Audio {
                     .appendDescription(Util.MilisToTimestring(track.getPosition()))
                     .appendDescription(" / ")
                     .appendDescription(Util.MilisToTimestring(track.getDuration()))
-                    .appendDescription("]");
+                    .appendDescription("]")
+                    .setThumbnail(getThumbnail(track));
             event.reply(embedBuilder.build());
         }
     }
@@ -268,6 +270,43 @@ public class Audio {
                     .setBulkSkipNumber(items.size() > 50 ? 5 : 0) // Only show bulk skip buttons when the Queue is sufficiently large
                     .build()
                     .display(event.getChannel());
+        }
+    }
+
+    /** Attempts to find a Thumbnail URL for the AudioTrack track.
+     * If nothing is found (or the service is not supported), returns the default "Playing" Icon.
+     * @param track An AudioTrack.
+     * @return A valid Thumbnail URL.
+     */
+    public String getThumbnail(AudioTrack track) {
+        String url = null; // Util.getHttpStatus will catch it
+
+        if (track.getInfo().uri.startsWith("https://www.youtube.com/watch?v=")) // lavaplayer *always* constructs YT URLs like this
+            url = "http://i1.ytimg.com/vi/" + track.getIdentifier() + "/0.jpg";
+        else if (track.getInfo().uri.startsWith("https://soundcloud.com/"))
+            url = getSoundcloudThumbnail(track.getInfo().uri);
+
+        if (Util.getHttpStatus(url) == 200)
+            return url;
+        return James.GITHUB_RAW_URL + "thumbnails/play.png";
+    }
+
+    /** Not the most reliable method, but i doesn't *have* to work, and i don't want to depend on yet another API.
+     * @param trackUrl The URL of a Soundcloud track.
+     * @return A Soundcloud Thumbnail URL (500x500) or null.
+     */
+    @CheckForNull
+    private String getSoundcloudThumbnail(String trackUrl){
+        String html = Util.getContentFromUrl(trackUrl);
+        int pos = html.indexOf("\"artwork_url\":") + 15;
+        try{
+            String artwork_url = html.substring(pos, html.indexOf("-large.jpg\"", pos) + 10);
+            if(artwork_url.contains("-large.png"))
+                artwork_url = html.substring(pos, html.indexOf("-large.png\"", pos) + 10);
+            return artwork_url;
+        }
+        catch(IndexOutOfBoundsException e){
+            return null;
         }
     }
 }
