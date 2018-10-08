@@ -40,7 +40,7 @@ public class Info extends Command {
     }
 
     private void getInfo(String githubToken) {
-        JSONObject latest = new JSONArray(Util.getContentFromUrl("https://api.github.com/repos/MCOfficer/EndlessSky-Discord-Bot/commits?access_token=" + githubToken))
+        JSONObject latest = new JSONArray(Util.getContentFromUrl("https://api.github.com/repos/EndlessSkyCommunity/EndlessSky-Discord-Bot/commits?access_token=" + githubToken))
                 .getJSONObject(0);
         commit = String.format("[%s](%s): %s", latest.getString("sha").substring(0, 7), latest.getString("html_url"),
                 latest.getJSONObject("commit").getString("message"));
