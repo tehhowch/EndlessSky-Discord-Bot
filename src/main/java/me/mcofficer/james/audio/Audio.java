@@ -114,13 +114,10 @@ public class Audio {
      */
     private void announceTrack(AudioTrack track, CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("Queueing `")
-                .appendDescription(track.getInfo().title)
-                .appendDescription("` [\uD83D\uDD17](")
-                .appendDescription(track.getInfo().uri)
-                .appendDescription(") (requested by ")
-                .appendDescription(event.getMember().getAsMention())
-                .appendDescription(")")
+                .setDescription(
+                        String.format("Queueing `%s` [\uD83D\uDD17](%s)\n(requested by %s)",
+                                track.getInfo().title, track.getInfo().uri, event.getMember().getAsMention())
+                )
                 .setThumbnail(getThumbnail(track));
         event.reply(embedBuilder.build());
     }
@@ -132,14 +129,10 @@ public class Audio {
      */
     private void announcePlaylist(AudioPlaylist playlist, CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("Queueing Playlist`")
-                .appendDescription(playlist.getName())
-                .appendDescription("`")
-                .appendDescription("(")
-                .appendDescription((String.valueOf(playlist.getTracks().size())))
-                .appendDescription(" tracks, requested by ")
-                .appendDescription(event.getMember().getAsMention())
-                .appendDescription(")")
+                .setDescription(
+                        String.format("Queueing Playlist `%s` (%s tracks, requested by %s)",
+                                playlist.getName(), playlist.getTracks().size(), event.getMember().getAsMention())
+                )
                 .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/play.png");
         event.reply(embedBuilder.build());
     }
@@ -156,11 +149,9 @@ public class Audio {
 
     private void announceSkip(CommandEvent event, int amount) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("Skipped ")
-                .appendDescription(String.valueOf(amount))
-                .appendDescription(" track(s), requested by ")
-                .appendDescription(event.getMember().getAsMention())
-                .appendDescription(")")
+                .setDescription(
+                        String.format("Skipped %s track(s)\n(requested by %s)", amount, event.getMember().getAsMention())
+                )
                 .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/skip.png");
         event.reply(embedBuilder.build());
     }
@@ -180,8 +171,7 @@ public class Audio {
 
     private void announceShuffle(CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("The Queue has been shuffled by ")
-                .appendDescription(event.getMember().getAsMention())
+                .setDescription(String.format("The Queue has been shuffled by %s", event.getMember().getAsMention()))
                 .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/shuffle.png");
         event.reply(embedBuilder.build());
     }
@@ -204,11 +194,11 @@ public class Audio {
         else {
             String trackString = String.format("**Playing:** %s [\uD83D\uDD17](%s)\n",
                             track.getInfo().title, track.getInfo().uri);
-            String timeString = String.format("**Time:** [%s / %s]",
-                    Util.MilisToTimestring(track.getPosition()), Util.MilisToTimestring(track.getDuration()));
             EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
                     .setDescription(trackString)
-                    .appendDescription(timeString)
+                    .appendDescription(String.format("**Time:** [%s / %s]",
+                            Util.MilisToTimestring(track.getPosition()),
+                            Util.MilisToTimestring(track.getDuration())))
                     .setThumbnail(getThumbnail(track));
 
             event.getTextChannel().sendMessage(embedBuilder.build()).queue(message -> {
@@ -241,10 +231,9 @@ public class Audio {
 
     private void announcePause(CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("The Audio Player has been paused.\n(requested by ")
-                .appendDescription(event.getMember().getAsMention())
-                .appendDescription("`)")
-                .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/pause.png");;
+                .setDescription(String.format("The Audio Player has been paused.\n(requested by %s)",
+                        event.getMember().getAsMention()))
+                .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/pause.png");
         event.reply(embedBuilder.build());
     }
 
@@ -260,9 +249,8 @@ public class Audio {
 
     private void announceUnpause(CommandEvent event) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("The Audio Player has been unpaused.\n(requested by ")
-                .appendDescription(event.getMember().getAsMention())
-                .appendDescription("`)")
+                .setDescription(String.format("The Audio Player has been unpaused\n(requested by %s)",
+                        event.getMember().getAsMention()))
                 .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/play.png");
         event.reply(embedBuilder.build());
     }
