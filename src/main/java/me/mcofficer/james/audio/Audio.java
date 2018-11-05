@@ -20,6 +20,7 @@ import net.dv8tion.jda.core.managers.AudioManager;
 import javax.annotation.CheckForNull;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.TimeUnit;
 
 public class Audio {
 
@@ -201,18 +202,32 @@ public class Audio {
         if (track == null)
             event.reply("Not playing anything!");
         else {
+            String trackString = String.format("**Playing:** %s [\uD83D\uDD17](%s)\n",
+                            track.getInfo().title, track.getInfo().uri);
+            String timeString = String.format("**Time:** [%s / %s]",
+                    Util.MilisToTimestring(track.getPosition()), Util.MilisToTimestring(track.getDuration()));
             EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                    .appendDescription("**Playing:** ")
-                    .appendDescription(track.getInfo().title)
-                    .appendDescription(" [\uD83D\uDD17](")
-                    .appendDescription(track.getInfo().uri)
-                    .appendDescription(")\n**Time:** [")
-                    .appendDescription(Util.MilisToTimestring(track.getPosition()))
-                    .appendDescription(" / ")
-                    .appendDescription(Util.MilisToTimestring(track.getDuration()))
-                    .appendDescription("]")
+                    .setDescription(trackString)
+                    .appendDescription(timeString)
                     .setThumbnail(getThumbnail(track));
-            event.reply(embedBuilder.build());
+
+            event.getTextChannel().sendMessage(embedBuilder.build()).queue(message -> {
+                while (track.equals(getPlayingTrack())) {
+                    embedBuilder.setDescription(trackString)
+                            .appendDescription(String.format("**Time:** [%s / %s]",
+                                    Util.MilisToTimestring(track.getPosition()),
+                                    Util.MilisToTimestring(track.getDuration()))
+                            );
+
+                    message.editMessage(embedBuilder.build()).queue();
+                    try {
+                        TimeUnit.SECONDS.sleep(15);
+                    }
+                    catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         }
     }
 
