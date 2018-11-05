@@ -143,19 +143,21 @@ public class Audio {
         event.reply(embedBuilder.build());
     }
 
-    /** Skips the currently playing Track and announces it.
+    /** Skips a number of Tracks and announces it.
      * @param event
+     * @param amount
      */
-    public void skip(CommandEvent event) {
-        announceSkip(event);
-        trackScheduler.skip();
+    public void skip(CommandEvent event, int amount) {
+        for (int i = 0; i < amount; i++)
+            trackScheduler.skip();
+        announceSkip(event, amount);
     }
 
-    private void announceSkip(CommandEvent event) {
+    private void announceSkip(CommandEvent event, int amount) {
         EmbedBuilder embedBuilder = createEmbedTemplate(event.getGuild())
-                .appendDescription("Skipped Track `")
-                .appendDescription(player.getPlayingTrack().getInfo().title)
-                .appendDescription("`, requested by ")
+                .appendDescription("Skipped ")
+                .appendDescription(String.valueOf(amount))
+                .appendDescription(" track(s), requested by ")
                 .appendDescription(event.getMember().getAsMention())
                 .appendDescription(")")
                 .setThumbnail(James.GITHUB_RAW_URL + "thumbnails/skip.png");

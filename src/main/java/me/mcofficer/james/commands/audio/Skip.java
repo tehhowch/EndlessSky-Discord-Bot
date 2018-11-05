@@ -10,14 +10,22 @@ public class Skip extends Command {
 
     public Skip(Audio audio) {
         name = "skip";
-        help = "Skips the currently playing song.";
+        help = "Skips X songs (defaults to 1).";
+        arguments = "X";
         category = James.audio;
+        this.aliases = new String[]{"-next"};
         this.audio = audio;
     }
 
     @Override
     protected void execute(CommandEvent event) {
-        if (audio.getVoiceChannel() != null && event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel()))
-            audio.skip(event);
+        if (audio.getVoiceChannel() != null && event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel())) {
+            int amount = 1;
+            try {
+                amount = Integer.parseInt(event.getArgs());
+            }
+            catch (NumberFormatException e) {}
+            audio.skip(event, amount);
+        }
     }
 }
