@@ -105,7 +105,7 @@ public class James {
                 new Eval(lookups, cfg),
                 new Play(audio), new Stop(audio), new Skip(audio), new Shuffle(audio), new Current(audio),
                 new Pause(audio), new Unpause(audio), new Queue(audio),
-                new SwizzleImage(),
+                new SwizzleImage(), new Template(),
                 new Cat(), new Dog(), new Birb(),
                 new Info(githubToken), new Ping(),
                 new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
