@@ -28,15 +28,17 @@ public class Help implements Consumer<CommandEvent> {
             e.reply(helpEmbedBuilder
                     .setColor(e.getGuild().getSelfMember().getColor())
                     .build());
-        else
+        else {
+            String args = e.getArgs().startsWith("-") ? e.getArgs().substring(1) : e.getArgs();
             // TODO: Check for aliases
             for (Command c : commands)
-                if (c.getName().equalsIgnoreCase(e.getArgs())) {
+                if (c.getName().equalsIgnoreCase(args)) {
                     e.reply(createHelpEmbedBuilder(c)
                             .setColor(e.getGuild().getSelfMember().getColor())
                             .build());
                     break;
                 }
+        }
     }
 
     /**
