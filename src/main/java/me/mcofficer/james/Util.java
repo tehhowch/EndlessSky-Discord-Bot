@@ -198,7 +198,7 @@ public class Util {
         Files.walk(temp)
                 .sorted(Comparator.reverseOrder())
                 .map(Path::toFile)
-                .forEach(File::delete);
+                .forEach(File::deleteOnExit);
         return sources;
     }
 
