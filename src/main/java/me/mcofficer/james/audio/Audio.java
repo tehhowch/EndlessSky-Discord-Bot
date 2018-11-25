@@ -18,6 +18,8 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.managers.AudioManager;
 
 import javax.annotation.CheckForNull;
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.concurrent.TimeUnit;
@@ -283,6 +285,27 @@ public class Audio {
                     .build()
                     .display(event.getChannel());
         }
+    }
+
+    /**
+     * Writes the currently playing track & queue's URIs to a file and sends it to the user.
+     * @param event
+     * @param fileName
+     */
+    public void sendQueueFile(CommandEvent event, String fileName) {
+        StringBuilder builder = new StringBuilder();
+        try {
+            builder.append(getPlayingTrack().getInfo().uri);
+        }
+        catch (NullPointerException e) {
+            event.reply("Nothing Playing!");
+        }
+        for (AudioTrack track : trackScheduler.getQueue())
+            builder.append("\n").append(track.getInfo().uri);
+
+        event.getTextChannel().sendFile(
+                new ByteArrayInputStream(builder.toString().getBytes(StandardCharsets.UTF_8)), fileName
+        ).queue();
     }
 
     /** Attempts to find a Thumbnail URL for the AudioTrack track.
