@@ -84,7 +84,7 @@ public class Help implements Consumer<CommandEvent> {
     private EmbedBuilder createHelpEmbedBuilder(Command c)  {
         EmbedBuilder embedBuilder = new EmbedBuilder()
                 .setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL)
-                .setDescription(String.format("`%s%s`\n", c.getName(), c.getArguments() == null ? "" : c.getArguments()))
+                .setDescription(String.format("`%s %s`\n", c.getName(), c.getArguments() == null ? "" : c.getArguments()))
                 .appendDescription(c.getHelp() + "\n");
 
         if (c.getAliases().length > 0) {
