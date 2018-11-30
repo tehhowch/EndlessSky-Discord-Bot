@@ -13,6 +13,7 @@ import me.mcofficer.james.commands.misc.Cat;
 import me.mcofficer.james.commands.misc.Dog;
 import me.mcofficer.james.commands.info.*;
 import me.mcofficer.james.commands.lookup.*;
+import me.mcofficer.james.commands.misc.Translate;
 import me.mcofficer.james.commands.moderation.*;
 import me.mcofficer.james.tools.Lookups;
 import net.dv8tion.jda.core.AccountType;
@@ -108,7 +109,7 @@ public class James {
                 new Play(audio), new Stop(audio), new Skip(audio), new Shuffle(audio), new Current(audio),
                 new Pause(audio), new Unpause(audio), new Queue(audio),
                 new SwizzleImage(), new Template(),
-                new Cat(), new Dog(), new Birb(),
+                new Cat(), new Dog(), new Birb(), new Translate(),
                 new Info(githubToken), new Ping(),
                 new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups),
                 new Purge(), new Optin(optinRoles, cfg.getProperty("timeoutRole")), new Optout(optinRoles),
