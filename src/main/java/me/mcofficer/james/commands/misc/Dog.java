@@ -10,7 +10,7 @@ public class Dog extends Command{
     public Dog() {
         name = "dog";
         help = "Posts a random dog image.";
-        category = James.fun;
+        category = James.misc;
     }
 
     @Override

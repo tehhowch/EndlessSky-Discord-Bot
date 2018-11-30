@@ -11,7 +11,7 @@ public class Cat extends Command{
     public Cat() {
         name = "cat";
         help = "Posts a random cat image.";
-        category = James.fun;
+        category = James.misc;
     }
 
     @Override

@@ -39,7 +39,7 @@ public class James {
     private static Properties cfg = new Properties();
 
     public static Command.Category audio = new Command.Category("Audio");
-    public static Command.Category fun = new Command.Category("Fun");
+    public static Command.Category misc = new Command.Category("Misc");
     public static Command.Category info = new Command.Category("Info");
     public static Command.Category creatorTools = new Command.Category("Creator Tools");
     public static Command.Category lookup = new Command.Category("Lookup");

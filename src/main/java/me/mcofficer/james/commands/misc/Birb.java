@@ -10,7 +10,7 @@ public class Birb extends Command{
     public Birb() {
         name = "birb";
         help = "Posts a random birb image.";
-        category = James.fun;
+        category = James.misc;
     }
 
     @Override
