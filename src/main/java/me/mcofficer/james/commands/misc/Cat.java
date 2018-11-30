@@ -1,4 +1,4 @@
-package me.mcofficer.james.commands.fun;
+package me.mcofficer.james.commands.misc;
 
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
