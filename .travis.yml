@@ -1,6 +1,6 @@
 language: java
 jdk: oraclejdk11
-dist: trusty
+dist: xenial
 
 before cache:
   - rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
