@@ -42,6 +42,12 @@ public class Translator {
 
         Response response = client.newCall(request).execute();
         JSONArray json = new JSONArray(response.body().string());
-        return json.getJSONArray(0).getJSONArray(0).getString(0);
+
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object snippet : json.getJSONArray(0)) // Why use a raw iterator here, org.json? WHY?
+            if (snippet instanceof JSONArray)
+                stringBuilder.append(((JSONArray) snippet).getString(0));
+
+        return stringBuilder.toString();
     }
 }
