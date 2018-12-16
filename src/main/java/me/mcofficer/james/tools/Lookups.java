@@ -119,6 +119,24 @@ public class Lookups {
         return returnUrls;
     }
 
+    /**
+     * Searches through all DataNodes and returns any that <br>
+     *     a) are of the type "government" and <br>
+     *     b) have a subnode of the type "swizzle", whose value matches the swizzle parameter.
+     * @param swizzle an Integer
+     * @return A List of DataNodes
+     */
+    public List<DataNode> getGovernmentsBySwizzle(int swizzle) {
+        List<DataNode> governments = new ArrayList<>();
+        for (DataFile file : dataFiles)
+            for (DataNode node : file.getNodes())
+                if (node.getTokens().get(0).equals("government"))
+                    for (DataNode child : node.getChildren())
+                        if (child.getTokens().get(0).equals("swizzle") && child.getTokens().get(1).equals(String.valueOf(swizzle)))
+                            governments.add(node);
+        return governments;
+    }
+
     /** Searches through the datafiles and returns 10 or less Nodes matching the query.
      * @param query
      * @return A possibly empty List of Nodes.
