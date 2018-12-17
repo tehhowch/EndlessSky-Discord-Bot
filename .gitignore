@@ -17,19 +17,12 @@
 /bin/
 
 # James Auths
-/token*.txt
-/keys.txt
 james.sh
 /gitauth.txt
+james.properties
 
 # James Data
-*_version.txt
-branch_name.txt
-data/dataFileNames.txt
-*.old
-/data/playlists.txt
-.playlistinput
-data/playlists/*
+/data/playlists.json
 
 # Other
 hs_err_pid*
