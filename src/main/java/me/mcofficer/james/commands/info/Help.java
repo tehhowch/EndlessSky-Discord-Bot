@@ -51,10 +51,9 @@ public class Help implements Consumer<CommandEvent> {
                 categories.add(c.getCategory());
 
         EmbedBuilder embedBuilder = new EmbedBuilder();
-        StringBuilder sb = new StringBuilder();
 
         for (Command.Category category : categories) {
-            sb.append("\n__**").append(category.getName()).append(":**__\n");
+            StringBuilder sb = new StringBuilder();
             for (Command c : commands) {
                 if (c.isHidden() || !c.getCategory().equals(category))
                     continue;
@@ -69,10 +68,10 @@ public class Help implements Consumer<CommandEvent> {
                 }
                 sb.append("\n");
             }
+            embedBuilder.addField(category.getName(), sb.toString(), true);
         }
 
         embedBuilder.setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL);
-        embedBuilder.setDescription(sb.toString());
 
         return embedBuilder;
     }
