@@ -16,8 +16,8 @@ public class Translate extends Command {
 
     public Translate() {
         name = "translate";
-        help = "Translates a Query Q from a auto-detected source language to another language t.";
-        arguments = "t Q";
+        help = "Translates a Query Q from a auto-detected source language to another language T.";
+        arguments = "T Q";
         category = James.misc;
     }
 

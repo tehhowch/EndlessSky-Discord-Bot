@@ -16,7 +16,7 @@ public class SwizzleImage extends Command {
     public SwizzleImage() {
         name = "swizzleimage";
         help = "Applies the Swizzle X to the uploaded image[s]. If X is not defined, applies swizzles 1-6.";
-        arguments = "[X] <images as attachment>";
+        arguments = "[X] <attached images>";
         category = James.creatorTools;
     }
 

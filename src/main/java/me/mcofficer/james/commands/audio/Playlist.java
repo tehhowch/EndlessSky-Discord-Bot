@@ -27,6 +27,7 @@ public class Playlist extends Command {
                 "`-playlist delete X` deletes the playlist X, if you are the owner of X.\n" +
                 "`-playlist edit X U` updates the playlist X with the URL U.\n" +
                 "`-playlist info X` Shows the URL and Owner of the playlist X.\n";
+        arguments = "[list|save|delete|edit|info] [X [U]]";
         category = James.audio;
 
         this.audio = audio;

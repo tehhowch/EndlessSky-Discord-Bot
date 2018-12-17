@@ -13,7 +13,7 @@ public class Skip extends Command {
         help = "Skips X songs (defaults to 1).";
         arguments = "X";
         category = James.audio;
-        this.aliases = new String[]{"-next"};
+        this.aliases = new String[]{"next"};
         this.audio = audio;
     }
 
