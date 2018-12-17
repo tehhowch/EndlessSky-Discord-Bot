@@ -101,14 +101,15 @@ public class James {
         }).start();
 
         Audio audio = new Audio();
+        Playlists  playlists= new Playlists();
 
         String[] optinRoles = cfg.getProperty("optinRoles").split(",");
         String[] ontopicCategories = cfg.getProperty("ontopicCategories").split(",");
 
         builder.addCommands(
-                new Eval(lookups, cfg),
+                new Eval(lookups, playlists, cfg),
                 new Play(audio), new Stop(audio), new Skip(audio), new Shuffle(audio), new Current(audio),
-                new Pause(audio), new Unpause(audio), new Queue(audio), new Playlist(audio, new Playlists()),
+                new Pause(audio), new Unpause(audio), new Queue(audio), new Playlist(audio, playlists),
                 new SwizzleImage(), new Template(),
                 new Cat(), new Dog(), new Birb(), new Translate(),
                 new Info(githubToken), new Ping(),
