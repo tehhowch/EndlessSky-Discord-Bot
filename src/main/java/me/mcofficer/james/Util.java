@@ -172,6 +172,7 @@ public class Util {
         OrderedMenu.Builder builder = new OrderedMenu.Builder()
                 .setEventWaiter(James.eventWaiter)
                 .setSelection(selection)
+                .setUsers(event.getAuthor())
                 .useCancelButton(true)
                 .setDescription("**Found the following Nodes:**")
                 .setColor(event.getGuild().getSelfMember().getColor());
