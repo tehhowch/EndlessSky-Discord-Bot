@@ -333,4 +333,15 @@ public class Util {
         else
             return String.format("%02d:%02d", minutes, seconds);
     }
+
+    /**
+     * Returns the a String containing what e's printStacktrace method would print.
+     * @param e
+     * @return
+     */
+    public static String ExceptionToString(Exception e) {
+        StringWriter sw = new StringWriter();
+        e.printStackTrace(new PrintWriter(sw));
+        return sw.toString();
+    }
 }
