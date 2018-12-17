@@ -29,7 +29,7 @@ public class Template extends Command {
     protected void execute(CommandEvent event) {
         String key = event.getArgs().toLowerCase();
         if (templates.containsKey(key)) {
-            String url = James.GITHUB_RAW_URL + "/resources/templates/" + templates.get(key);
+            String url = James.GITHUB_RAW_URL + "/data/templates/" + templates.get(key);
             event.reply(new EmbedBuilder()
                     .setTitle(templates.get(key))
                     .setColor(event.getGuild().getSelfMember().getColor())
