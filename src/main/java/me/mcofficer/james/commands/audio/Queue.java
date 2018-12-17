@@ -22,6 +22,7 @@ public class Queue extends Command {
     protected void execute(CommandEvent event) {
         if (audio.getVoiceChannel() != null && event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel())) {
             String[] args = event.getArgs().split(" ");
+
             if (args[0].equalsIgnoreCase("print")) {
                 String fileName = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
                 if (fileName.length() == 0)

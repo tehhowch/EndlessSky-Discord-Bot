@@ -5,6 +5,7 @@ import com.jagrosh.jdautilities.command.CommandClientBuilder;
 import com.jagrosh.jdautilities.commons.waiter.EventWaiter;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.james.audio.Audio;
+import me.mcofficer.james.audio.Playlists;
 import me.mcofficer.james.commands.*;
 import me.mcofficer.james.commands.audio.*;
 import me.mcofficer.james.commands.creatortools.*;
@@ -107,7 +108,7 @@ public class James {
         builder.addCommands(
                 new Eval(lookups, cfg),
                 new Play(audio), new Stop(audio), new Skip(audio), new Shuffle(audio), new Current(audio),
-                new Pause(audio), new Unpause(audio), new Queue(audio),
+                new Pause(audio), new Unpause(audio), new Queue(audio), new Playlist(audio, new Playlists()),
                 new SwizzleImage(), new Template(),
                 new Cat(), new Dog(), new Birb(), new Translate(),
                 new Info(githubToken), new Ping(),
