@@ -19,7 +19,9 @@ public class Skip extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        if (audio.getVoiceChannel() != null && event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel())) {
+        if (audio.getVoiceChannel() != null
+                && event.getMember().getVoiceState().getChannel().equals(audio.getVoiceChannel())
+                && audio.getPlayingTrack() == null) {
             int amount = 1;
             try {
                 amount = Integer.parseInt(event.getArgs());
