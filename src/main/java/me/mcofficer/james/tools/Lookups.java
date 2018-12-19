@@ -205,15 +205,21 @@ public class Lookups {
         if (imageNode == null)
             return null;
         String path = String.join(" ", imageNode.getTokens().subList(1, imageNode.getTokens().size()));
+        String bestMatch = null;
         try {
-            for (String imagePath : imagePaths)
-                if (java.net.URLDecoder.decode(imagePath, StandardCharsets.UTF_8.name()).contains(path))
-                    return imagePath;
+            // Find the shortest possible image url containing `path`
+            for (String imagePath : imagePaths) {
+                String decoded = java.net.URLDecoder.decode(imagePath, StandardCharsets.UTF_8.name());
+                if (decoded.contains(path) &&
+                        (bestMatch == null ? Integer.MAX_VALUE : bestMatch.length())
+                                > decoded.substring(decoded.lastIndexOf('/')).length())
+                    bestMatch = imagePath;
+            }
         }
         catch (UnsupportedEncodingException e) { //Should never happen since UTF-8 is from StandardCharsets
             e.printStackTrace();
         }
-        return null;
+        return bestMatch;
     }
 
     /** Searches a Node for a description Subnode.
