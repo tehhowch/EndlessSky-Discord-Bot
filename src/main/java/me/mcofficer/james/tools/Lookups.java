@@ -211,8 +211,8 @@ public class Lookups {
             for (String imagePath : imagePaths) {
                 String decoded = java.net.URLDecoder.decode(imagePath, StandardCharsets.UTF_8.name());
                 if (decoded.contains(path) &&
-                        (bestMatch == null ? Integer.MAX_VALUE : bestMatch.length())
-                                > decoded.substring(decoded.lastIndexOf('/')).length())
+                        (bestMatch == null ? Integer.MAX_VALUE : bestMatch.substring(bestMatch.lastIndexOf('/')).length())
+                                > imagePath.substring(imagePath.lastIndexOf('/')).length())
                     bestMatch = imagePath;
             }
         }
