@@ -36,10 +36,10 @@ public class Timeout extends Command {
         String[] args = event.getArgs().split(" ");
         long time;
         try {
-            time = Long.valueOf(args[args.length - 1]);
+            time = Long.valueOf(args[toTimeout.size()]);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            event.reply("Failed to parse \"" + args[args.length - 1] + "\"as Long!");
+            event.reply("Failed to parse \"" + args[toTimeout.size()] + "\"as Long!");
             return;
         }
 
