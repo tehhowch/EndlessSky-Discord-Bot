@@ -72,7 +72,7 @@ public class Move extends Command {
 
                 // Transport the message content to the new channel.
                 if(!toMove.isEmpty())
-                    Util.sendInChunks(dest, toMove, "Incoming wormhole content from " + dest.getAsMention() + ":\n```", "```");
+                    Util.sendInChunks(dest, toMove, "Incoming wormhole content from " + event.getTextChannel().getAsMention() + ":\n```", "```");
 
                 // Log the move in mod-log.
                 String report = "Moved " + toMove.size() +
