@@ -19,8 +19,8 @@ public class Move extends Command {
 
     public Move() {
         name = "move";
-        help = "Moves X messages to Channel Y. Removes Embeds in the process.";
-        arguments = "X Y";
+        help = "Moves X messages to Channel C. Removes Embeds in the process.";
+        arguments = "C X";
         aliases = new String[]{"wormhole"};
         category = James.moderation;
     }
