@@ -17,10 +17,12 @@ import me.mcofficer.james.commands.lookup.*;
 import me.mcofficer.james.commands.misc.Translate;
 import me.mcofficer.james.commands.moderation.*;
 import me.mcofficer.james.tools.Lookups;
+import me.mcofficer.james.tools.Translator;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.entities.Game;
+import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -38,6 +40,7 @@ public class James {
     public final static String ES_GITHUB_URL = "https://github.com/endless-sky/endless-sky/";
 
     public final static EventWaiter eventWaiter = new EventWaiter();
+    private final OkHttpClient okHttpClient = new OkHttpClient();
     private static Properties cfg = new Properties();
 
     public static Command.Category audio = new Command.Category("Audio");
@@ -111,7 +114,7 @@ public class James {
                 new Play(audio), new Stop(audio), new Skip(audio), new Shuffle(audio), new Current(audio),
                 new Pause(audio), new Unpause(audio), new Queue(audio), new Playlist(audio, playlists),
                 new SwizzleImage(), new Template(),
-                new Cat(), new Dog(), new Birb(), new Translate(),
+                new Cat(), new Dog(), new Birb(), new Translate(new Translator(okHttpClient)),
                 new Info(githubToken), new Ping(),
                 new Issue(), new Commit(), new Showdata(lookups), new Showimage(lookups), new Show(lookups), new Lookup(lookups), new Swizzle(lookups),
                 new Purge(), new Optin(optinRoles, cfg.getProperty("timeoutRole")), new Optout(optinRoles),

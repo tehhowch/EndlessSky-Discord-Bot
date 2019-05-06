@@ -12,9 +12,10 @@ import java.util.Arrays;
 
 public class Translate extends Command {
 
-    private final Translator translator = new Translator();
+    private final Translator translator;
 
-    public Translate() {
+    public Translate(Translator translator) {
+        this.translator = translator;
         name = "translate";
         help = "Translates a Query Q from a auto-detected source language to another language T.";
         arguments = "T Q";

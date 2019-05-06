@@ -9,6 +9,12 @@ import java.io.IOException;
 
 public class Translator {
 
+    private OkHttpClient okHttpClient = new OkHttpClient();
+
+    public Translator(OkHttpClient okHttpClient) {
+        this.okHttpClient = okHttpClient;
+    }
+
     /**
      * @param sourceLang The source language, defaults to "auto"
      * @param targetLang The target language, defaults to "en"
@@ -20,8 +26,6 @@ public class Translator {
             sourceLang = "auto";
         if (targetLang == null)
             targetLang = "en";
-
-        OkHttpClient client = new OkHttpClient();
 
         HttpUrl url = new HttpUrl.Builder()
                 .scheme("https")
@@ -40,7 +44,7 @@ public class Translator {
                 .get()
                 .build();
 
-        Response response = client.newCall(request).execute();
+        Response response = okHttpClient.newCall(request).execute();
         JSONArray json = new JSONArray(response.body().string());
 
         StringBuilder stringBuilder = new StringBuilder();
