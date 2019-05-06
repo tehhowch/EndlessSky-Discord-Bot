@@ -94,7 +94,7 @@ public class James {
 
         log.info("Fetching image paths...");
         ArrayList<String> imagePaths = Util.get1xImagePaths(githubToken);
-        Lookups lookups = new Lookups(dataFiles, imagePaths);
+        Lookups lookups = new Lookups(okHttpClient, dataFiles, imagePaths);
         log.info("Lookups instantiated");
 
         log.info("Starting background thread to fetch hdpi image paths...");

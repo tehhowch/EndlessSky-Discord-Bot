@@ -3,10 +3,8 @@ package me.mcofficer.james.tools;
 import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.DataNode;
 import me.mcofficer.james.Util;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
+import okhttp3.*;
+import org.json.JSONObject;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.StringMetrics;
 
@@ -20,10 +18,12 @@ import java.util.stream.Collectors;
 
 public class Lookups {
 
+    private OkHttpClient okHttpClient;
     final ArrayList<DataFile> dataFiles;
     ArrayList<String> imagePaths;
 
-    public Lookups(ArrayList<DataFile> dataFiles, ArrayList<String> imagePaths) {
+    public Lookups(OkHttpClient okhttpClient, ArrayList<DataFile> dataFiles, ArrayList<String> imagePaths) {
+        this.okHttpClient = okhttpClient;
         this.dataFiles = dataFiles;
         this.imagePaths = imagePaths;
     }
@@ -89,34 +89,39 @@ public class Lookups {
      */
     @CheckReturnValue
     private List<String> getAssetsUrls(DataNode node) {
-        String dirUrl = "https://endlesssky.mcofficer.me/assets/assets%20for%20endless%20sky/";
+        String baseUrl = "https://endlesssky.mcofficer.me/";
         String nodeType = node.getTokens().get(0);
         String nodeName = String.join(" ", node.getTokens().subList(1, node.getTokens().size()));
         List<String> returnUrls = new ArrayList<>();
 
+        String dir;
         if (nodeType.equals("ship"))
-            dirUrl += "ships/";
+            dir = "ships";
         else if (nodeType.equals("outfit"))
-            dirUrl += "outfits/";
+            dir = "outfits";
         else if (nodeType.equals("projectile"))
-            dirUrl += "projectiles/";
+            dir = "projectiles";
         else
             return returnUrls;
 
-        Document doc;
-        try {
-            doc = Jsoup.connect(dirUrl).get();
+        String query = String.format("{ \"action\": \"get\", \"search\": { \"href\": \"/\",\"pattern\": \"%s\", \"ignorecase\": true } }", nodeName);
+        RequestBody body = RequestBody.create(MediaType.get("application/json"), query);
+        Request request = new Request.Builder()
+                .url(baseUrl + "assets/?")
+                .post(body)
+                .build();
+        try (Response response = okHttpClient.newCall(request).execute()) {
+            JSONObject json = new JSONObject(response.body().string());
+            for (Object result : json.getJSONArray("search"))
+                if (result instanceof JSONObject) { // sigh
+                    String url = baseUrl + ((JSONObject) result).getString("href");
+                    String[] urlSegments = url.split("/");
+                    if (urlSegments[urlSegments.length - 2].equals(dir))
+                        returnUrls.add(url);
+                }
         }
         catch (IOException e) {
             e.printStackTrace();
-            return returnUrls;
-        }
-        Elements elements = doc.body().getElementsByTag("pre");
-        if (elements.isEmpty())
-            return returnUrls;
-        for (Element link : elements.get(0).children()) {
-            if (link.text().toLowerCase().contains(nodeName.toLowerCase()))
-                returnUrls.add(link.attr("abs:href"));
         }
 
         return returnUrls;
