@@ -39,7 +39,7 @@ public class Timeout extends Command {
             time = Long.valueOf(args[toTimeout.size()]);
         } catch (NumberFormatException e) {
             e.printStackTrace();
-            event.reply("Failed to parse \"" + args[toTimeout.size()] + "\"as Long!");
+            event.reply("Failed to parse \"" + args[toTimeout.size()] + "\" as Long!");
             return;
         }
 
