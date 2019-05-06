@@ -6,6 +6,7 @@ import me.mcofficer.james.Util;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.StringMetrics;
 
@@ -110,8 +111,10 @@ public class Lookups {
             e.printStackTrace();
             return returnUrls;
         }
-
-        for (Element link : doc.body().getElementsByTag("pre").get(0).children()) {
+        Elements elements = doc.body().getElementsByTag("pre");
+        if (elements.isEmpty())
+            return returnUrls;
+        for (Element link : elements.get(0).children()) {
             if (link.text().toLowerCase().contains(nodeName.toLowerCase()))
                 returnUrls.add(link.attr("abs:href"));
         }
