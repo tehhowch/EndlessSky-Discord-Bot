@@ -4,6 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import me.mcofficer.james.tools.Translator;
+import net.dv8tion.jda.core.EmbedBuilder;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -29,7 +30,10 @@ public class Translate extends Command {
         String query = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
         try {
-            event.reply(translator.translate(null, target, query));
+            EmbedBuilder embedBuilder = new EmbedBuilder()
+                    .setTitle("Translation requested by " + event.getMember().getEffectiveName())
+                    .setDescription(translator.translate(null, target, query));
+            event.reply(embedBuilder.build());
         }
         catch (IOException e) {
             StringWriter stringWriter = new StringWriter();
