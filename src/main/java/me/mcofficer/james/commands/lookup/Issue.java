@@ -17,7 +17,7 @@ public class Issue extends Command{
 
     @Override
     protected void execute(CommandEvent event) {
-        String url = James.ES_GITHUB_URL + "issues/" + event.getArgs();
+        String url = James.ES_GITHUB_URL + "issues/" + event.getMessage().getContentDisplay();
 
         int s = Util.getHttpStatus(url);
 
