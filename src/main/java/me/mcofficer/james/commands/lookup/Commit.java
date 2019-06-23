@@ -16,7 +16,7 @@ public class Commit extends Command{
 
     @Override
     protected void execute(CommandEvent event) {
-        String url = James.ES_GITHUB_URL + "commit/" + event.getMessage().getContentDisplay();
+        String url = James.ES_GITHUB_URL + "commit/" + event.getMessage().getContentDisplay().split(" ")[1];
 
         int s = Util.getHttpStatus(url);
 
