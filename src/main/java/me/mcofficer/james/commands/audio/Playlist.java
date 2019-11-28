@@ -6,7 +6,7 @@ import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import me.mcofficer.james.audio.Audio;
 import me.mcofficer.james.audio.Playlists;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.io.IOException;
 import java.util.Arrays;

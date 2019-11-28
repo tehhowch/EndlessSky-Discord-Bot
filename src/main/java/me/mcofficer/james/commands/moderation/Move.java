@@ -4,11 +4,11 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
@@ -54,7 +54,7 @@ public class Move extends Command {
                     String what = m.getContentStripped().trim();
                     if (what.isEmpty())
                         continue;
-                    toMove.addFirst(m.getCreationTime()
+                    toMove.addFirst(m.getTimeCreated()
                             .format(DateTimeFormatter.ISO_INSTANT).substring(11, 19)
                             + "Z " + chatter.getEffectiveName() + ": " + what + "\n"
                     );

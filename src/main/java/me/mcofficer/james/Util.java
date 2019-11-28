@@ -4,8 +4,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import com.jagrosh.jdautilities.menu.OrderedMenu;
 import me.mcofficer.esparser.DataNode;
 import me.mcofficer.esparser.Sources;
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.managers.GuildController;
+import net.dv8tion.jda.api.entities.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -18,7 +17,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
@@ -27,7 +26,7 @@ import java.util.function.BiConsumer;
 
 public class Util {
 
-    static Logger log = LoggerFactory.getLogger(Util.class);
+    private static Logger log = LoggerFactory.getLogger(Util.class);
 
     /**
      * Checks a URL for the HTTP status code.
@@ -67,7 +66,7 @@ public class Util {
             HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
             connection.setRequestProperty("User-Agent", "MarioB(r)owser4.2");
             connection.connect();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8));
             StringBuilder sb = new StringBuilder();
             int cp;
             while ((cp = reader.read()) != -1)
@@ -299,16 +298,17 @@ public class Util {
      */
     public static void replaceRolesTemporarily(Role temporaryRole, long seconds, Member member, String logOnCommand, String logOnRelease) {
         List<Role> originalRoles = member.getRoles();
-        GuildController gc = member.getGuild().getController();
         // Remove current roles & add temporary role
         if (member.getRoles().contains(temporaryRole))
             Util.log(member.getGuild(), String.format("Attempted to give Role %s to %s, but %s already has it! Aborting Role Removal.",
                     temporaryRole.getAsMention(), member.getAsMention(), member.getAsMention()));
         else {
-            gc.modifyMemberRoles(member, new ArrayList<Role>() {{ add(temporaryRole); }}, originalRoles).queue(success1 ->
+            Guild guild = member.getGuild();
+
+            guild.modifyMemberRoles(member, new ArrayList<Role>() {{ add(temporaryRole); }}, originalRoles).queue(success1 ->
                     // Remove timout role & re-add old roles
-                    gc.removeSingleRoleFromMember(member, temporaryRole).queueAfter(seconds, TimeUnit.SECONDS, success2 -> {
-                        originalRoles.forEach(role -> gc.addSingleRoleToMember(member, role).queue());
+                    guild.removeRoleFromMember(member, temporaryRole).queueAfter(seconds, TimeUnit.SECONDS, success2 -> {
+                        originalRoles.forEach(role -> guild.addRoleToMember(member, role).queue());
                         Util.log(member.getGuild(), logOnRelease);
                     })
             );

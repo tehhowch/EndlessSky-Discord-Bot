@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import me.mcofficer.james.tools.ImageSwizzler;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.entities.Message;
 
 import java.io.IOException;
 import java.util.List;
@@ -31,12 +31,15 @@ public class SwizzleImage extends Command {
                     event.reply(a.getFileName() + " is larger than 1000px.");
                     continue;
                 }
-                try {
-                    event.getTextChannel().sendFile(swizzler.swizzle(a.getInputStream(), event.getArgs()), "swizzled.png").queue();
-                }
-                catch (IOException e) {
-                    e.printStackTrace();
-                }
+
+                a.retrieveInputStream().thenAccept(inputStream -> {
+                    try {
+                        event.getTextChannel().sendFile(swizzler.swizzle(inputStream, event.getArgs()), "swizzled.png").queue();
+                    }
+                    catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
             }
     }
 

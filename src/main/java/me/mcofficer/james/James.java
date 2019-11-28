@@ -18,10 +18,9 @@ import me.mcofficer.james.commands.misc.Translate;
 import me.mcofficer.james.commands.moderation.*;
 import me.mcofficer.james.tools.Lookups;
 import me.mcofficer.james.tools.Translator;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.Game;
+import net.dv8tion.jda.api.AccountType;
+import net.dv8tion.jda.api.JDA;
+import net.dv8tion.jda.api.JDABuilder;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,7 +49,7 @@ public class James {
     public static Command.Category lookup = new Command.Category("Lookup");
     public static Command.Category moderation = new Command.Category("Moderation");
 
-    Logger log = LoggerFactory.getLogger(James.class);
+    private Logger log = LoggerFactory.getLogger(James.class);
 
     public static void main(String[] args) {
         try {
@@ -71,7 +70,7 @@ public class James {
     private James(Properties cfg) throws LoginException, InterruptedException, IOException {
         CommandClientBuilder clientBuilder = new CommandClientBuilder()
                 .setPrefix("-")
-                .setGame(Game.listening("-help"))
+                .setActivity(net.dv8tion.jda.api.entities.Activity.listening("-help"))
                 .setOwnerId("177733454824341505"); // yep, that's me
         addCommands(clientBuilder, cfg.getProperty("github"));
 
@@ -79,8 +78,7 @@ public class James {
 
         JDA jda = new JDABuilder(AccountType.BOT)
                 .setToken(cfg.getProperty("token"))
-                .addEventListener(clientBuilder.build())
-                .addEventListener(eventWaiter)
+                .addEventListeners(clientBuilder.build(), eventWaiter)
                 .build()
                 .awaitReady();
     }

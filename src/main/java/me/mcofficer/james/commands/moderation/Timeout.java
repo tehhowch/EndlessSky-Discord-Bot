@@ -4,10 +4,10 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Role;
-import net.dv8tion.jda.core.managers.GuildController;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 
 import java.util.List;
 
@@ -36,14 +36,12 @@ public class Timeout extends Command {
         String[] args = event.getArgs().split(" ");
         long time;
         try {
-            time = Long.valueOf(args[toTimeout.size()]);
+            time = Long.parseLong(args[toTimeout.size()]);
         } catch (NumberFormatException e) {
             e.printStackTrace();
             event.reply("Failed to parse \"" + args[toTimeout.size()] + "\" as Long!");
             return;
         }
-
-        GuildController gc = event.getGuild().getController();
 
         for (Member member : toTimeout) {
             String onCommand = String.format("Sent Member %s to the corner for %s seconds (Ordered by `%s#%s`).",

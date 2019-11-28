@@ -16,7 +16,7 @@ import java.io.InputStream;
 
 public class ImageSwizzler {
 
-    final static String[] swizzles = {
+    private final static String[] swizzles = {
             "rbg",
             "grb",
             "brg",
@@ -43,7 +43,7 @@ public class ImageSwizzler {
         if(arg == null || arg.isEmpty())
             output = createAllSwizzles(img, channels);
         else
-            output = createSwizzledImage(img.getWidth(), img.getHeight(), channels, swizzles[Integer.valueOf(arg) - 1]);
+            output = createSwizzledImage(img.getWidth(), img.getHeight(), channels, swizzles[Integer.parseInt(arg) - 1]);
 
         ByteArrayOutputStream os = new ByteArrayOutputStream();
         ImageWriter writer = ImageIO.getImageWritersByFormatName("png").next();

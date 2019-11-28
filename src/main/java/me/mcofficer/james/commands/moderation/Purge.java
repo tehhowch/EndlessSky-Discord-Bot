@@ -4,9 +4,9 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
-import net.dv8tion.jda.core.entities.TextChannel;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.TextChannel;
 
 public class Purge extends Command {
 
@@ -21,7 +21,7 @@ public class Purge extends Command {
     protected void execute(CommandEvent event) {
         if (event.getMember().hasPermission(event.getTextChannel(), Permission.MESSAGE_MANAGE)) {
             try {
-                int amount = Integer.valueOf(event.getArgs());
+                int amount = Integer.parseInt(event.getArgs());
                 if (amount < 2 || 100 < amount)
                     throw new NumberFormatException();
                 TextChannel channel = event.getTextChannel();

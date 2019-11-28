@@ -6,10 +6,10 @@ import me.mcofficer.esparser.DataNode;
 import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import me.mcofficer.james.tools.Lookups;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Message;
 
 import java.util.List;
 

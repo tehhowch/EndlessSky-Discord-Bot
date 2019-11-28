@@ -4,11 +4,12 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
-import net.dv8tion.jda.core.entities.Member;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageHistory;
-import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.utils.MiscUtil;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Message;
+import net.dv8tion.jda.api.entities.MessageHistory;
+import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.utils.MiscUtil;
+import net.dv8tion.jda.api.utils.TimeUtil;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Activity extends Command {
         Member query = event.getMessage().getMentionedMembers().get(0);
 
         long timestamp = Instant.now().minusSeconds(1209600L).toEpochMilli(); // 2 weeks ago
-        String discordTimestamp = Long.toUnsignedString(MiscUtil.getDiscordTimestamp(timestamp));
+        String discordTimestamp = Long.toUnsignedString(TimeUtil.getDiscordTimestamp(timestamp));
 
         ArrayList<Message> messages = new ArrayList<>();
         for (String c : ontopicCategories)

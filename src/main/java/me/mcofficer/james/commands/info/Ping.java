@@ -3,7 +3,7 @@ package me.mcofficer.james.commands.info;
 import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 public class Ping extends Command {
 
@@ -17,7 +17,7 @@ public class Ping extends Command {
     protected void execute(CommandEvent event) {
         event.reply(new EmbedBuilder()
                 .setTitle("EndlessSky-Discord-Bot", James.GITHUB_URL)
-                .setDescription("Last Heartbeat took " + event.getJDA().getPing() + "ms.")
+                .setDescription("Last Heartbeat took " + event.getJDA().getGatewayPing() + "ms.")
                 .setColor(event.getGuild().getSelfMember().getColor())
                 .build()
         );

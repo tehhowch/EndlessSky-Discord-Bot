@@ -4,7 +4,7 @@ import com.jagrosh.jdautilities.command.Command;
 import com.jagrosh.jdautilities.command.CommandClient;
 import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +87,7 @@ public class Help implements Consumer<CommandEvent> {
                 .appendDescription(c.getHelp() + "\n");
 
         if (c.getAliases().length > 0) {
-            embedBuilder.appendDescription(String.format("**Aliases: **"));
+            embedBuilder.appendDescription("**Aliases: **");
             StringBuilder sb = new StringBuilder();
             for (String alias : c.getAliases())
                 sb.append(String.format("`%s`, ", alias));

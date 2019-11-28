@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 public class Lookups {
 
     private OkHttpClient okHttpClient;
-    final ArrayList<DataFile> dataFiles;
-    ArrayList<String> imagePaths;
+    private final ArrayList<DataFile> dataFiles;
+    private ArrayList<String> imagePaths;
 
     public Lookups(OkHttpClient okhttpClient, ArrayList<DataFile> dataFiles, ArrayList<String> imagePaths) {
         this.okHttpClient = okhttpClient;
@@ -77,7 +77,7 @@ public class Lookups {
         for (String link : getAssetsUrls(node))
             stringBuilder.append(String.format("[%s](%s)\n", link.substring(link.lastIndexOf('/') + 1).replace("%20", " "), link));
 
-        //TODO: endless-sky.wikia.com
+        // TODO: endless-sky.wikia.com
 
         return stringBuilder.toString();
     }

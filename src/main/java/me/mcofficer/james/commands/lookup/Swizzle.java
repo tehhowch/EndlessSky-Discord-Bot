@@ -5,7 +5,7 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.esparser.DataNode;
 import me.mcofficer.james.James;
 import me.mcofficer.james.tools.Lookups;
-import net.dv8tion.jda.core.EmbedBuilder;
+import net.dv8tion.jda.api.EmbedBuilder;
 
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +45,7 @@ public class Swizzle extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        int swizzle = Integer.valueOf(event.getArgs());
+        int swizzle = Integer.parseInt(event.getArgs());
 
         if (!vectors.containsKey(swizzle))
             event.reply("Swizzle not found!");
