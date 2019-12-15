@@ -305,7 +305,7 @@ public class Util {
         else {
             Guild guild = member.getGuild();
 
-            guild.modifyMemberRoles(member, new ArrayList<Role>() {{ add(temporaryRole); }}, originalRoles).queue(success1 ->
+            guild.modifyMemberRoles(member, new ArrayList<>() {{ add(temporaryRole); }}, originalRoles).queue(success1 ->
                     // Remove timout role & re-add old roles
                     guild.removeRoleFromMember(member, temporaryRole).queueAfter(seconds, TimeUnit.SECONDS, success2 -> {
                         originalRoles.forEach(role -> guild.addRoleToMember(member, role).queue());

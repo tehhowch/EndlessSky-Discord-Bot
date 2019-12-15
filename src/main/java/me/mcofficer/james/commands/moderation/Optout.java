@@ -23,8 +23,9 @@ public class Optout extends Command {
 
     @Override
     protected void execute(CommandEvent event) {
-        List<Role> remove = Util.getOptinRolesByQuery(event.getArgs(), event.getGuild(), optinRoles);
-        event.getGuild().modifyMemberRoles(event.getMember(), remove).queue(success1 ->
+        List<Role> newRoles = event.getMember().getRoles();
+        newRoles.removeAll(Util.getOptinRolesByQuery(event.getArgs(), event.getGuild(), optinRoles));
+        event.getGuild().modifyMemberRoles(event.getMember(), newRoles).queue(success1 ->
                 event.getMessage().addReaction("\uD83D\uDC4C").queue(success2 ->
                         event.getMessage().delete().queueAfter(20, TimeUnit.SECONDS)
                 )
