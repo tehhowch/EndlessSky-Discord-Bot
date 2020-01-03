@@ -3,6 +3,7 @@ package me.mcofficer.james.audio;
 import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 
 import javax.annotation.CheckForNull;
 import java.util.Collections;
@@ -46,6 +47,12 @@ public class TrackScheduler extends AudioEventAdapter {
     public void enqueue(AudioTrack track) {
         if(!player.startTrack(track, true)) //something is currently playing
             queue.offer(track);
+    }
+
+    @Override
+    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
+        if(endReason.mayStartNext)
+            skip();
     }
 
     /**
