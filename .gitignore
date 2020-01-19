@@ -1,7 +1,6 @@
 # Gradle
 /build/
 /.gradle/
-/gradle/
 /out/
 
 # IntelliJ
