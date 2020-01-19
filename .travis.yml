@@ -16,9 +16,7 @@ notifications:
     on_success: never
     on_failure: change
 
-script: 
-  - chmod +x gradlew
-  - gradle build
+script: gradle build
 
 after_success:
   - wget https://raw.githubusercontent.com/k3rn31p4nic/travis-ci-discord-webhook/master/send.sh
