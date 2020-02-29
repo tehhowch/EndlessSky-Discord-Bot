@@ -4,6 +4,7 @@ import me.mcofficer.esparser.DataFile;
 import me.mcofficer.esparser.DataNode;
 import me.mcofficer.james.Util;
 import okhttp3.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.simmetrics.StringMetric;
 import org.simmetrics.metrics.StringMetrics;
@@ -120,7 +121,7 @@ public class Lookups {
                         returnUrls.add(url);
                 }
         }
-        catch (IOException e) {
+        catch (IOException | JSONException e) {
             e.printStackTrace();
         }
 
