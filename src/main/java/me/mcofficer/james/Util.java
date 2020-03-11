@@ -6,11 +6,13 @@ import me.mcofficer.esparser.DataNode;
 import me.mcofficer.esparser.Sources;
 import net.dv8tion.jda.api.entities.*;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.CheckReturnValue;
+import javax.annotation.Nullable;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -155,10 +157,11 @@ public class Util {
      * @param targetDir
      * @throws IOException
      */
-    public static void downloadFile(String url, Path targetDir) throws IOException {
-        String filename = url.substring(url.lastIndexOf('/'));
+    public static void downloadFile(String url, Path targetDir, @Nullable String filename) throws IOException {
+        if (filename == null)
+            filename = url.substring(url.lastIndexOf('/'));
         ReadableByteChannel channel = Channels.newChannel(new URL(url).openStream());
-        FileOutputStream outputStream = new FileOutputStream(targetDir + filename);
+        FileOutputStream outputStream = new FileOutputStream(targetDir + "/" + filename);
         outputStream.getChannel().transferFrom(channel, 0, Long.MAX_VALUE);
     }
 
@@ -188,18 +191,34 @@ public class Util {
         Path temp = Files.createTempDirectory("james");
         File data = new File(temp.toAbsolutePath() + "/data/");
         data.mkdir();
+        data.deleteOnExit();
 
-        JSONArray json = new JSONArray(Util.getContentFromUrl("https://api.github.com/repos/endless-sky/endless-sky/contents/data?ref=master&access_token=" + githubToken));
-        for (Object o : json) {
-            JSONObject j = (JSONObject) o;
-            Util.downloadFile(j.getString("download_url"), data.toPath());
-        }
+        fetchGameDataRecursive(githubToken, data, "data");
         ArrayList<File> sources = Sources.getSources(temp, null);
         Files.walk(temp)
                 .sorted(Comparator.reverseOrder())
                 .map(Path::toFile)
                 .forEach(File::deleteOnExit);
         return sources;
+    }
+
+    private static void fetchGameDataRecursive(String githubToken, File dataFolder, String repoPath) {
+        JSONArray json = new JSONArray(Util.getContentFromUrl(String.format(
+                "https://api.github.com/repos/endless-sky/endless-sky/contents%s?ref=master&access_token=%s",
+                repoPath, githubToken)));
+        for (Object o : json) {
+            try {
+                JSONObject j = (JSONObject) o;
+                if (j.getString("name").endsWith(".txt")) {
+                    Util.downloadFile(j.getString("download_url"), dataFolder.toPath(), j.getString("path").replaceAll("/", "_"));
+                } else { // assume we have a directory
+                    fetchGameDataRecursive(githubToken, dataFolder, j.getString("path"));
+                }
+            }
+            catch (IOException | JSONException e ) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /** Compiles a list of valid image URLs from the ES repository.
