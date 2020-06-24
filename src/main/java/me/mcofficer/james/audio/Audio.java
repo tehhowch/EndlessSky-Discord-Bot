@@ -44,7 +44,7 @@ public class Audio {
      * @param voiceChannel
      */
     public void connect(VoiceChannel voiceChannel) {
-        if (audioManager == null || (!audioManager.isConnected() && !audioManager.isAttemptingToConnect())) {
+        if (audioManager == null || !audioManager.isConnected()) {
             audioManager = voiceChannel.getGuild().getAudioManager();
             audioManager.openAudioConnection(voiceChannel);
             audioManager.setSendingHandler(audioPlayerSendHandler);

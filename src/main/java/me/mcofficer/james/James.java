@@ -76,8 +76,7 @@ public class James {
 
         clientBuilder.setHelpConsumer(new Help(clientBuilder.build())); // this HAS to be done after adding all Commands!
 
-        JDA jda = new JDABuilder(AccountType.BOT)
-                .setToken(cfg.getProperty("token"))
+        JDA jda = JDABuilder.createDefault(cfg.getProperty("token"))
                 .addEventListeners(clientBuilder.build(), eventWaiter)
                 .build()
                 .awaitReady();
