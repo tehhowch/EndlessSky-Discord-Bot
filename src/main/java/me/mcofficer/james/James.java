@@ -78,7 +78,8 @@ public class James {
 
         clientBuilder.setHelpConsumer(new Help(clientBuilder.build())); // this HAS to be done after adding all Commands!
 
-        JDA jda = JDABuilder.createDefault(cfg.getProperty("token"), GatewayIntent.GUILD_MEMBERS)
+        JDA jda = JDABuilder.createDefault(cfg.getProperty("token"))
+                .enableIntents(GatewayIntent.GUILD_MEMBERS)
                 .addEventListeners(clientBuilder.build(), eventWaiter)
                 .build()
                 .awaitReady();
