@@ -18,10 +18,10 @@ import me.mcofficer.james.commands.misc.Translate;
 import me.mcofficer.james.commands.moderation.*;
 import me.mcofficer.james.tools.Lookups;
 import me.mcofficer.james.tools.Translator;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +78,7 @@ public class James {
 
         clientBuilder.setHelpConsumer(new Help(clientBuilder.build())); // this HAS to be done after adding all Commands!
 
-        JDA jda = JDABuilder.create(cfg.getProperty("token"), EnumSet.allOf(GatewayIntent.class))
+        JDA jda = JDABuilder.createDefault(cfg.getProperty("token"), GatewayIntent.GUILD_MEMBERS)
                 .addEventListeners(clientBuilder.build(), eventWaiter)
                 .build()
                 .awaitReady();
