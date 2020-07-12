@@ -5,10 +5,13 @@ import com.jagrosh.jdautilities.command.CommandEvent;
 import me.mcofficer.james.James;
 import me.mcofficer.james.Util;
 import net.dv8tion.jda.api.entities.*;
-import net.dv8tion.jda.api.utils.TimeUtil;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 public class Activity extends Command {
 
@@ -31,25 +34,32 @@ public class Activity extends Command {
             return;
         }
 
-        long timestamp = Instant.now().minusSeconds(1209600L).toEpochMilli(); // 2 weeks ago
-        String discordTimestamp = Long.toUnsignedString(TimeUtil.getDiscordTimestamp(timestamp));
+        OffsetDateTime cutoffTime = OffsetDateTime.ofInstant(Instant.now().minusSeconds(1209600L), ZoneId.systemDefault());
 
         List<Message> messages = new ArrayList<>();
         for (String catId : ontopicCategories) {
             net.dv8tion.jda.api.entities.Category category = event.getJDA().getCategoryById(catId);
             if (category != null) {
                 for (TextChannel channel : category.getTextChannels()) {
-                    messages.addAll(MessageHistory.getHistoryBefore(channel, discordTimestamp).complete().getRetrievedHistory());
+                    try {
+                        messages.addAll(
+                                channel
+                                        .getIterableHistory()
+                                        .takeUntilAsync(msg -> msg.getTimeCreated().isBefore(cutoffTime))
+                                        .get()
+                        );
+                    } catch (InterruptedException | ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            else {
+            } else {
                 event.reply("Failed to find category with ID " + catId + ", results will be inaccurate. Please contact my hoster.");
             }
         }
 
         Map<Member, Integer> results = new HashMap<>();
         for (Message msg : messages) {
-            if (msg.getMember()!=null) {
+            if (msg.getMember() != null) {
                 results.merge(msg.getMember(), 1, Integer::sum);
             }
         }
@@ -59,7 +69,7 @@ public class Activity extends Command {
             if (results.containsKey(query)) {
                 event.reply(query.getEffectiveName() + " sent " + results.getOrDefault(query, 0) + " Messages in Ontopic-Channels over the last 2 weeks.");
             }
-        } catch (IndexOutOfBoundsException e) {
+        } catch (IndexOutOfBoundsException oob) {
             int maxLength = results
                     .keySet()
                     .stream()
@@ -69,12 +79,10 @@ public class Activity extends Command {
                     .length();
             String formatString = "%-" + (maxLength + 5) + "s%04d\n";
 
-            List<String> tableLines = new ArrayList<>();
-            for (Map.Entry<Member, Integer> entry : results.entrySet()) {
-                Member member = entry.getKey();
-                int sent = entry.getValue();
-                tableLines.add(String.format(formatString, member.getEffectiveName(), sent));
-            }
+            List<String> tableLines = results.entrySet().stream()
+                    .sorted(Comparator.comparingInt(Map.Entry::getValue))
+                    .map(e -> String.format(formatString, e.getKey().getEffectiveName(), e.getValue()))
+                    .collect(Collectors.toList());
             Util.sendInChunks(event.getTextChannel(), tableLines, "```", "```");
         }
     }
