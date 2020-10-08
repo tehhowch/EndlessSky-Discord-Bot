@@ -9,11 +9,12 @@ import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.TextChannel;
+import net.dv8tion.jda.api.requests.RestAction;
 
 import java.time.format.DateTimeFormatter;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 public class Move extends Command {
 
@@ -32,8 +33,7 @@ public class Move extends Command {
         TextChannel dest = event.getMessage().getMentionedChannels().get(0);
         try {
             amount = Integer.parseInt(args[1]);
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             e.printStackTrace();
             event.reply("Failed to parse \"" + args[1] + "\"as Integer!");
             return;
@@ -45,7 +45,7 @@ public class Move extends Command {
             event.getMessage().delete().complete();
 
             // Use a lambda to asynchronously perform this request:
-            event.getTextChannel().getHistory().retrievePast(amount).queue( toDelete -> {
+            event.getTextChannel().getIterableHistory().takeAsync(amount).thenAccept(toDelete -> {
                 if (toDelete.isEmpty())
                     return;
                 LinkedList<String> toMove = new LinkedList<>();
@@ -60,18 +60,29 @@ public class Move extends Command {
                     );
                 }
                 // Remove the messages from the original channel and log the move.
-                event.getTextChannel().deleteMessages(toDelete).queue(x -> {
-                    EmbedBuilder log = new EmbedBuilder();
-                    log.setDescription(dest.getAsMention());
-                    log.setThumbnail("https://cdn.discordapp.com/emojis/344684586904584202.png");
-                    log.appendDescription("\n(" + toMove.size() + " messages await)");
-                    if (toDelete.size() - toMove.size() > 0)
-                        log.appendDescription("\n(Some embeds were eaten)");
-                    event.getTextChannel().sendMessage(log.build()).queue();
-                });
+                AtomicInteger counter = new AtomicInteger();
+                toDelete.stream()
+                        .collect(Collectors.groupingBy(x -> counter.getAndIncrement() / 100))
+                        .values()
+                        .forEach(chunk -> {
+                            try {
+                                event.getTextChannel().deleteMessages(chunk).complete();
+                            }
+                            catch (IllegalArgumentException e) {
+                                event.reply("Encountered an error while moving messages: " + e.getMessage());
+                            }
+                        });
+
+                EmbedBuilder log = new EmbedBuilder();
+                log.setDescription(dest.getAsMention());
+                log.setThumbnail("https://cdn.discordapp.com/emojis/344684586904584202.png");
+                log.appendDescription("\n(" + toMove.size() + " messages await)");
+                if (toDelete.size() - toMove.size() > 0)
+                    log.appendDescription("\n(Some embeds were eaten)");
+                event.getTextChannel().sendMessage(log.build()).queue();
 
                 // Transport the message content to the new channel.
-                if(!toMove.isEmpty())
+                if (!toMove.isEmpty())
                     Util.sendInChunks(dest, toMove, "Incoming wormhole content from " + event.getTextChannel().getAsMention() + ":\n```", "```");
 
                 // Log the move in mod-log.
@@ -81,8 +92,7 @@ public class Move extends Command {
                         event.getMember().getEffectiveName() + "`.";
                 Util.log(event.getGuild(), report);
             });
-        }
-        else
+        } else
             event.reply(Util.getRandomDeniedMessage());
     }
 }
